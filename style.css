@@ -1,8 +1,8 @@
 :root{
-    --pri:#FFF7CD;
-    --sec:#FDC3A1;
-    --tri1:#FB9B8F;
-    --tri2:#F57799;
+    --back:#FFF1D3;
+    --pri:#FFB090;
+    --sec:#CA5995;
+    --txt:#5D1C6A;
 }
 
 *{
@@ -10,7 +10,7 @@
     padding: 0;
     box-sizing: border-box;
     font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    color: var(--pri);
+    color: var(--txt);
 }
 html,body{
     height: 100%;
@@ -19,22 +19,44 @@ html,body{
 #main{
     height: 100%;
     width: 100%;
-    background-color: var(--tri2);
+    background-color: var(--back);
 }
 nav{
     position: fixed;
     height: 5%;
     width: 100%;
-    background-color: var(--tri1);
+    background-color: var(--pri);
 }
 section.allelm{
-    padding: 5vw;
+    padding: 2vw;
     padding-top: 5vw;
     height: 100%;
     width: 100%;
     display: flex;
     flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 2vw;
 }
 .elem{
-    background-color:#b74f42 ;
+    background-color:var(--sec) ;
+    height: 20vw;
+    width: 17.5vw;
+    border-radius: 2vw;
+    font-size: 1vw;
+    overflow: hidden;
+    position: relative;
+    transition: all ease;
+} 
+.elem img{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+.elem h2{
+    position: absolute;
+    bottom: 9%;
+    right: 5%;
+}
+.elem:active{
+    transform: scale(0.95);
 }
