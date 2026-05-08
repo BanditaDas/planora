@@ -1,5 +1,5 @@
 :root{
-    --back:#FFF1D3;
+    --back:#f1d4c7;
     --pri:#FFB090;
     --sec:#CA5995;
     --txt:#5D1C6A;
@@ -48,6 +48,7 @@ section.allelm{
     position: relative;
     transition: all 0.2s ease;
     flex-shrink: 0;
+    box-shadow: #deb7a1 0px 5px 15px;
 }
 .elem img{
     height: 100%;
