@@ -1,4 +1,5 @@
-var allelem = document.querySelectorAll('.elem')
+function openpg(){
+    var allelem = document.querySelectorAll('.elem')
 var fullelem = document.querySelectorAll ('.fullelem')
 var backbtn = document.querySelectorAll('.fullelem .back')
 
@@ -20,3 +21,6 @@ backbtn.forEach(function(back){
 })    
     
  
+
+}
+openpg()
