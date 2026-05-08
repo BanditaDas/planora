@@ -36,17 +36,19 @@ section.allelm{
     flex-wrap: wrap;
     align-items: flex-start;
     gap: 2vw;
+    position: absolute;
 }
 .elem{
-    background-color:var(--sec) ;
-    height: 20vw;
-    width: 17.5vw;
+    background-color: var(--sec);
+    width: 270px;
+    height: 310px;
     border-radius: 2vw;
     font-size: 1vw;
     overflow: hidden;
     position: relative;
-    transition: all ease;
-} 
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
 .elem img{
     height: 100%;
     width: 100%;
@@ -59,4 +61,12 @@ section.allelm{
 }
 .elem:active{
     transform: scale(0.95);
+}
+.fullelem{
+    height: 100%;
+    width: 100%;
+    background: var(--back);
+    padding: 2vw;
+    display: none;
+    position: absolute;
 }
