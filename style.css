@@ -86,3 +86,31 @@ section.allelm{
 .back:active{
     transform: scale(0.95);
 }
+.todo-fullpg{
+    display: block;
+    background: var(--sec);
+}
+.todo-fullpg h2{
+    font-size: 2vw;
+    margin-bottom: 2vw;
+}
+.todo-fullpg .todo-container{
+    height: 70%;
+    width: 100%;
+    margin-top: 3vw;
+    display: flex;
+    align-self: center;
+    justify-content: space-between;
+}
+.todo-fullpg .todo-container .addTask{
+    height: 100%;
+    width: 38%;
+    background: var(--pri);
+    border-radius: 20px;
+}
+.todo-fullpg .todo-container .alltask{
+    height: 100%;
+    width: 60%;
+    background: var(--pri);
+    border-radius: 20px;
+}
