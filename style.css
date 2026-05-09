@@ -1,232 +1,240 @@
-:root{
-    --back:#f1d4c7;
-    --pri:#FFB090;
-    --sec:#db6aa6;
-    --txt:#5D1C6A;
+:root {
+  --back: #f1d4c7;
+  --pri: #ffb090;
+  --sec: #db6aa6;
+  --txt: #5d1c6a;
 }
 
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    color: var(--txt);
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  color: var(--txt);
 }
-html,body{
-    height: 100%;
-    width: 100%;
+html,
+body {
+  height: 100%;
+  width: 100%;
 }
-#main{
-    height: 100%;
-    width: 100%;
-    background-color: var(--back);
+#main {
+  height: 100%;
+  width: 100%;
+  background-color: var(--back);
 }
-nav{
-    position: fixed;
-    height: 5%;
-    width: 100%;
-    background-color: var(--pri);
+nav {
+  position: fixed;
+  height: 5%;
+  width: 100%;
+  background-color: var(--pri);
 }
-section.allelm{
-    padding: 2vw;
-    padding-top: 5vw;
-    height: 100%;
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    gap: 2vw;
-    position: absolute;
+section.allelm {
+  padding: 2vw;
+  padding-top: 5vw;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 2vw;
+  position: absolute;
 }
-.elem{
-    background-color: var(--sec);
-    width: 270px;
-    height: 310px;
-    border-radius: 2vw;
-    font-size: 1vw;
-    overflow: hidden;
-    position: relative;
-    transition: all 0.2s ease;
-    flex-shrink: 0;
-    box-shadow: #deb7a1 0px 5px 15px;
+.elem {
+  background-color: var(--sec);
+  width: 270px;
+  height: 310px;
+  border-radius: 2vw;
+  font-size: 1vw;
+  overflow: hidden;
+  position: relative;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  box-shadow: #deb7a1 0px 5px 15px;
 }
-.elem img{
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
+.elem img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
 }
-.elem h2{
-    position: absolute;
-    bottom: 9%;
-    right: 5%;
+.elem h2 {
+  position: absolute;
+  bottom: 9%;
+  right: 5%;
 }
-.elem:active{
-    transform: scale(0.95);
+.elem:active {
+  transform: scale(0.95);
 }
-.fullelem{
-    height: 100%;
-    width: 100%;
-    background: var(--back);
-    padding: 2vw;
-    display: none;
-    position: absolute;
+.fullelem {
+  height: 100%;
+  width: 100%;
+  background: var(--back);
+  padding: 2vw;
+  display: none;
+  position: absolute;
 }
-.back{
-    position: absolute;
-    right: 5%;
-    background-color: var(--sec);
-    border-radius: 50%;
-    padding: 1vw 1.1vw;
-    font-size: 20px;
-    font-weight: 700;
-    cursor: pointer;
-    border: none;
-    transition: all 0.2s ease;
+.back {
+  position: absolute;
+  right: 5%;
+  background-color: var(--sec);
+  border-radius: 50%;
+  padding: 1vw 1.1vw;
+  font-size: 20px;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
 }
-.back i{
-    color: #F4DDD2;
+.back i {
+  color: #f4ddd2;
 }
-.back:hover{
-    scale: 1.1;
+.back:hover {
+  scale: 1.1;
 }
-.back:active{
-    transform: scale(0.95);
+.back:active {
+  transform: scale(0.95);
 }
-.todo-fullpg{
-    display: none;
-    background: #F4DDD2;
-    padding: 2vw;
-    overflow: hidden;
-}
-
-.todo-fullpg h1{
-    font-size: 3vw;
-    margin-bottom: 2vw;
-    color: var(--txt);
-    letter-spacing: -1px;
+.todo-fullpg {
+  display: none;
+  background: #f4ddd2;
+  padding: 2vw;
+  overflow: hidden;
 }
 
-.todo-fullpg .todo-container{
-    height: 85%;
-    width: 100%;
-    display: flex;
-    gap: 2vw;
+.todo-fullpg h1 {
+  font-size: 3vw;
+  margin-bottom: 2vw;
+  color: var(--txt);
+  letter-spacing: -1px;
+}
+
+.todo-fullpg .todo-container {
+  height: 85%;
+  width: 100%;
+  display: flex;
+  gap: 2vw;
 }
 
 /* LEFT SIDE */
 
-.todo-fullpg .todo-container .addTask{
-    width: 35%;
-    height: 100%;
-    background: #E8C7B7;
-    border-radius: 2vw;
-    padding: 1.5vw;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+.todo-fullpg .todo-container .addTask {
+  width: 35%;
+  height: 100%;
+  background: #e8c7b7;
+  border-radius: 2vw;
+  padding: 1.5vw;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
 }
 
-.todo-fullpg .todo-container .addTask h3{
-    font-size: 2vw;
-    margin-bottom: 1.5vw;
+.todo-fullpg .todo-container .addTask h3 {
+  font-size: 2vw;
+  margin-bottom: 1.5vw;
 }
 
-.todo-fullpg .todo-container .addTask form{
-    display: flex;
-    flex-direction: column;
-    gap: 1.2vw;
+.todo-fullpg .todo-container .addTask form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2vw;
 }
 
-.todo-container .addTask form input{
-    width: 100%;
-    padding: 1vw 1.2vw;
-    border-radius: 1vw;
-    border: none;
-    background: #F7EEE8;
-    font-size: 1vw;
-    outline: none;
-    box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
+.todo-container .addTask form input {
+  background-color: #eee;
+  border: none;
+  padding: 1rem;
+  font-size: 1rem;
+  width: 100%;
+  border-radius: 1rem;
+  color: var(--txt);
+  box-shadow: #d6b099 0px 5px 15px;
+  cursor: pointer;
+  outline: none;
 }
 
-.todo-container .addTask form textarea{
-    width: 100%;
-    height: 220px;
-    padding: 1vw 1.2vw;
-    border-radius: 1vw;
-    border: none;
-    background: #F7EEE8;
-    font-size: 1vw;
-    outline: none;
-    resize: none;
-    box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
+.todo-container .addTask form textarea {
+  width: 100%;
+  height: 220px;
+  padding: 1vw 1.2vw;
+  border-radius: 1vw;
+  border: none;
+  background: #f7eee8;
+  font-size: 1vw;
+  color: var(--txt);
+  box-shadow: #d6b099 0px 5px 15px;
+  cursor: pointer;
+  outline: none;
+  resize: none;
 }
 
-.todo-container .addTask form button{
-    width: 100%;
-    padding: 1vw;
-    border: none;
-    border-radius: 1vw;
-    background: linear-gradient(135deg,#D96BA8,#C85C99);
-    color: white;
-    font-size: 1.1vw;
-    font-weight: 700;
-    cursor: pointer;
-    transition: 0.2s ease;
+.todo-container .addTask form button {
+  width: 100%;
+  padding: 1vw;
+  border: none;
+  border-radius: 1vw;
+  background: linear-gradient(135deg, #d96ba8, #c85c99);
+  color: white;
+  font-size: 1.1vw;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s ease;
 }
 
-.todo-container .addTask form button:hover{
-    transform: translateY(-2px);
+.todo-container .addTask form button:hover {
+  transform: translateY(-2px);
 }
 
-.todo-container .addTask form button:active{
-    transform: scale(0.97);
+.todo-container .addTask form button:active {
+  transform: scale(0.97);
 }
 
 /* RIGHT SIDE */
 
-.todo-fullpg .todo-container .alltask{
-    width: 65%;
-    height: 100%;
-    background: #E8C7B7;
-    border-radius: 2vw;
-    padding: 1.5vw;
-    overflow-y: auto;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+.todo-fullpg .todo-container .alltask {
+  width: 65%;
+  height: 100%;
+  background: #e8c7b7;
+  border-radius: 2vw;
+  padding: 1.5vw;
+  overflow-y: auto;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
 }
 
 /* TASK CARD */
 
-.alltask .task{
-    width: 100%;
-    background: #FFF5EF;
-    padding: 1.2vw;
-    border-radius: 1.3vw;
-    margin-bottom: 1vw;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 5px 10px rgba(0,0,0,0.05);
-    transition: 0.2s ease;
+.alltask .task {
+  width: 100%;
+  background: #fff5ef;
+  padding: 1.2vw;
+  border-radius: 1.3vw;
+  margin-bottom: 1vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
+  transition: 0.2s ease;
 }
 
-.alltask .task:hover{
-    transform: translateY(-2px);
+.alltask .task:hover {
+  transform: translateY(-2px);
 }
 
-.alltask .task h5{
-    font-size: 1.2vw;
-    font-weight: 600;
+.alltask .task h5 {
+  font-size: 1.2vw;
+  font-weight: 600;
 }
 
-.alltask .task button{
-    padding: 0.7vw 1vw;
-    border: none;
-    border-radius: 0.8vw;
-    background: #E88989;
-    color: white;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.2s ease;
+.alltask .task button {
+  padding: 0.7vw 1vw;
+  border: none;
+  border-radius: 0.8vw;
+  background: var(--sec);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.alltask .task button:hover{
-    background: #d96d6d;
+.alltask .task button:hover {
+  scale: 1.05;
+}
+.alltask::-webkit-scrollbar{
+    display: none;
 }
