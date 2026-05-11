@@ -230,6 +230,7 @@ section.allelm {
   align-items: center;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05);
   transition: 0.2s ease;
+  position: relative;
 }
 
 .alltask .task:hover {
@@ -252,12 +253,30 @@ section.allelm {
   text-transform: uppercase;
 
 }
-.task h5 span{
+
+.important-mark {
+  position: absolute;
+  top: 10%;
+  left: -0.5vw;
   color: var(--red);
-  font-size: 1.2vw;
-  padding: 0.4vw 0.7vw;
-  border-radius: 2vw;
-} 
+  font-size: 1.8vw;
+  animation: breathe 1.5s infinite ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.important-mark i {
+  color: var(--red);
+}
+
+@keyframes breathe {
+  0% { transform: translateY(-50%) scale(1); opacity: 0.8; }
+  50% { transform: translateY(-50%) scale(1.3); opacity: 1; filter: drop-shadow(0 0 4px rgba(255, 0, 0, 0.6)); }
+  100% { transform: translateY(-50%) scale(1); opacity: 0.8; }
+}
+
 .alltask .task p{
   font-size: 1.1vw;
   color: var(--txt);
