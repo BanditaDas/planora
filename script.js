@@ -65,7 +65,7 @@ curtask.forEach(function (elem) {
     sum += `<div class="task">
                         <div class="task-details">
                             <h5>${elem.task}
-                            <span>${elem.imp}</span>
+                            <span class=${elem.imp ? 'true' : 'false'}>${elem.imp ? '<i class="ri-error-warning-line"></i>' : ''}</span>
                             </h5>
                             <p>${elem.dets}</p>
                         </div>

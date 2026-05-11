@@ -3,6 +3,7 @@
   --pri: #ffb090;
   --sec: #db6aa6;
   --txt: #5d1c6a;
+  --red: #ff0000;
 }
 
 * {
@@ -234,10 +235,33 @@ section.allelm {
 .alltask .task:hover {
   transform: translateY(-2px);
 }
+.task-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5vw;
+  /* background: #762323; */
+  width: 90%;
+}
 
 .alltask .task h5 {
-  font-size: 1.2vw;
+  font-size: 1.5vw;
   font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 2vw;
+  text-transform: uppercase;
+
+}
+.task h5 span{
+  color: var(--red);
+  font-size: 1.2vw;
+  padding: 0.4vw 0.7vw;
+  border-radius: 2vw;
+} 
+.alltask .task p{
+  font-size: 1.1vw;
+  color: var(--txt);
+  text-transform: capitalize;
 }
 
 .alltask .task button {
