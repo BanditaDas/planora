@@ -49,21 +49,22 @@ var curtask = [
 ]
 
 
-// form.addEventListener('submit', function(e){
-//     e.preventDefault();
+form.addEventListener('submit', function (e) {
+    e.preventDefault();
 
 
-//     console.log(Checkbox.checked);
+    console.log(Checkbox.checked);
 
-// })
+})
 
-var alltasks = document.querySelector('.alltask')
+function renderTask() {
+    var alltasks = document.querySelector('.alltask')
 
-var sum = " "
+    var sum = " "
 
-curtask.forEach(function (elem) {
-    sum += `<div class="task">
-                        ${elem.imp ? '<span class="important-mark"><i class="ri-error-warning-fill"></i></span>' : ''}
+    curtask.forEach(function (elem) {
+        sum += `<div class="task">
+                        ${elem.imp ? '<span class="important-mark"><i class="fa-solid fa-star"></i></span>' : ''}
                         <div class="task-details">
                             <h5>${elem.task}</h5>
                             <p>${elem.dets}</p>
@@ -71,6 +72,8 @@ curtask.forEach(function (elem) {
                         <button>complete </button>
                     </div>`
 
-})
+    })
 
-alltasks.innerHTML = sum
+    alltasks.innerHTML = sum
+}
+renderTask()
