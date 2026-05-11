@@ -136,7 +136,7 @@ section.allelm {
   gap: 1.2vw;
 }
 
-.todo-container .addTask form input {
+.todo-container .addTask form input[type="text"] {
   background-color: #eee;
   border: none;
   padding: 1rem;
@@ -162,6 +162,25 @@ section.allelm {
   cursor: pointer;
   outline: none;
   resize: none;
+}
+
+.todo-container .addTask form .important-container {
+  display: flex;
+  align-items: center;
+  gap: 0.8vw;
+}
+
+.todo-container .addTask form .important-container input[type="checkbox"] {
+  width: 1.2vw;
+  height: 1.2vw;
+  cursor: pointer;
+  accent-color: var(--sec);
+}
+
+.todo-container .addTask form .important-container label {
+  font-size: 1.1vw;
+  font-weight: 600;
+  cursor: pointer;
 }
 
 .todo-container .addTask form button {
