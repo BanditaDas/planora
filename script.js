@@ -53,19 +53,28 @@ function renderTask() {
 
     var sum = " "
 
-    curtask.forEach(function (elem) {
+    curtask.forEach(function (elem, index) {
         sum += `<div class="task">
                         ${elem.imp ? '<span class="important-mark"><i class="fa-solid fa-star"></i></span>' : ''}
                         <div class="task-details">
                             <h5>${elem.task}</h5>
                             <p>${elem.dets}</p>
                         </div>
-                        <button>complete </button>
+                        <button id="${index}">complete </button>
                     </div>`
 
     })
 
     alltasks.innerHTML = sum
+
+    var markCompleteBtn = document.querySelectorAll('.task button')
+    markCompleteBtn.forEach(function(btn){
+        btn.addEventListener("click", function(){
+            curtask.splice(btn.id, 1)
+            localStorage.setItem('currentTaskList', JSON.stringify(curtask))
+            renderTask()
+        })
+    })
 }
 renderTask()
 
@@ -88,14 +97,4 @@ form.addEventListener('submit', function (e) {
 
     renderTask()
     
-})
-
-var markCompleteBtn = document.querySelectorAll('.task button')
-
-markCompleteBtn.forEach(function(btn){
-    btn.addEventListener("click", function(){
-        curtask.splice(btn.id, 1)
-        localStorage.setItem('currentTaskList', JSON.stringify(curtask))
-        renderTask()
-    })
 })
