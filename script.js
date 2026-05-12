@@ -7,6 +7,7 @@ function openpg() {
         elem.addEventListener('click', function () {
 
             fullelem[elem.id].style.display = 'block'
+            localStorage.setItem('openFullPage', elem.id)
 
         })
 
@@ -16,11 +17,15 @@ function openpg() {
         back.addEventListener('click', function () {
 
             fullelem[back.id].style.display = 'none'
+            localStorage.removeItem('openFullPage')
 
         })
     })
 
-
+    var openPageId = localStorage.getItem('openFullPage');
+    if (openPageId !== null && fullelem[openPageId]) {
+        fullelem[openPageId].style.display = 'block';
+    }
 
 }
 openpg()
@@ -31,23 +36,16 @@ var detsinput = document.querySelector('.addTask form textarea')
 var Checkbox = document.querySelector('.addTask form input[type="checkbox"]')
 
 var curtask = [
-    {
-        task: 'task1',
-        dets: 'dets1',
-        imp: true
-    },
-    {
-        task: 'task2',
-        dets: 'dets2',
-        imp: false
-    },
-    {
-        task: 'task3',
-        dets: 'dets3',
-        imp: true
-    }
+    
 ]
 
+if(localStorage.getItem('currentTaskList')){
+    curtask = JSON.parse(localStorage.getItem('currentTaskList'))
+    
+}else{
+    console.log("Task list is empty");
+    
+}
 
 
 function renderTask() {
@@ -82,11 +80,12 @@ form.addEventListener('submit', function (e) {
             imp: Checkbox.checked
         }
     )
+    localStorage.setItem('currentTaskList', JSON.stringify(curtask))
     input.value = ''
     detsinput.value = ''
     Checkbox.checked = false
 
-    
+
     renderTask()
     
 })
