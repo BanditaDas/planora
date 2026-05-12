@@ -49,13 +49,6 @@ var curtask = [
 ]
 
 
-form.addEventListener('submit', function (e) {
-    e.preventDefault();
-
-
-    console.log(Checkbox.checked);
-
-})
 
 function renderTask() {
     var alltasks = document.querySelector('.alltask')
@@ -77,3 +70,23 @@ function renderTask() {
     alltasks.innerHTML = sum
 }
 renderTask()
+
+
+form.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    curtask.push(
+        {
+            task: input.value, 
+            dets: detsinput.value, 
+            imp: Checkbox.checked
+        }
+    )
+    input.value = ''
+    detsinput.value = ''
+    Checkbox.checked = false
+
+    
+    renderTask()
+    
+})
