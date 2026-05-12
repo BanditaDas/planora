@@ -89,3 +89,13 @@ form.addEventListener('submit', function (e) {
     renderTask()
     
 })
+
+var markCompleteBtn = document.querySelectorAll('.task button')
+
+markCompleteBtn.forEach(function(btn){
+    btn.addEventListener("click", function(){
+        curtask.splice(btn.id, 1)
+        localStorage.setItem('currentTaskList', JSON.stringify(curtask))
+        renderTask()
+    })
+})
