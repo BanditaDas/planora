@@ -36,15 +36,15 @@ var detsinput = document.querySelector('.addTask form textarea')
 var Checkbox = document.querySelector('.addTask form input[type="checkbox"]')
 
 var curtask = [
-    
+
 ]
 
-if(localStorage.getItem('currentTaskList')){
+if (localStorage.getItem('currentTaskList')) {
     curtask = JSON.parse(localStorage.getItem('currentTaskList'))
-    
-}else{
+
+} else {
     console.log("Task list is empty");
-    
+
 }
 
 
@@ -68,8 +68,8 @@ function renderTask() {
     alltasks.innerHTML = sum
 
     var markCompleteBtn = document.querySelectorAll('.task button')
-    markCompleteBtn.forEach(function(btn){
-        btn.addEventListener("click", function(){
+    markCompleteBtn.forEach(function (btn) {
+        btn.addEventListener("click", function () {
             curtask.splice(btn.id, 1)
             localStorage.setItem('currentTaskList', JSON.stringify(curtask))
             renderTask()
@@ -79,22 +79,25 @@ function renderTask() {
 renderTask()
 
 
-form.addEventListener('submit', function (e) {
-    e.preventDefault();
+function todo() {
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
 
-    curtask.push(
-        {
-            task: input.value, 
-            dets: detsinput.value, 
-            imp: Checkbox.checked
-        }
-    )
-    localStorage.setItem('currentTaskList', JSON.stringify(curtask))
-    input.value = ''
-    detsinput.value = ''
-    Checkbox.checked = false
+        curtask.push(
+            {
+                task: input.value,
+                dets: detsinput.value,
+                imp: Checkbox.checked
+            }
+        )
+        localStorage.setItem('currentTaskList', JSON.stringify(curtask))
+        input.value = ''
+        detsinput.value = ''
+        Checkbox.checked = false
 
 
-    renderTask()
-    
-})
+        renderTask()
+
+    })
+}
+todo()
