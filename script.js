@@ -112,13 +112,28 @@ todo()
 
 // --- daily planner ---
 
-Array.from({ length: 19 }, (_, i) => i + 6).map((hour) => {
+var dayPlanData = JSON.parse(localStorage.getItem('dayPlanData')) || {};
+
+var plan = document.querySelectorAll('.day-plan-time input')
+
+Array.from({ length: 20 }, (_, i) => i + 5).map((hour,idx) => {
     const timeElement = document.createElement('div');
     timeElement.className = 'day-plan-time';
     timeElement.innerHTML = `
         <p>${hour}:00 AM</p>
-        <input type="text" placeholder=" ">
+        <input id=${idx} type="text" placeholder=" ">
     `;
     document.querySelector('.day-planner').appendChild(timeElement);
 });
+
+
+
+plan.forEach(function (elem) {
+    elem.addEventListener('input', function () {
+        dayPlanData[elem.id] = elem.value;
+
+        localStorage.setItem('dayPlanData', JSON.stringify(dayPlanData))
+        
+    })
+})
 
