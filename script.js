@@ -30,6 +30,10 @@ function openpg() {
 }
 openpg()
 
+
+// ---- todo list ----
+
+
 var form = document.querySelector('.addTask form')
 var input = document.querySelector('.addTask form input')
 var detsinput = document.querySelector('.addTask form textarea')
@@ -101,3 +105,20 @@ function todo() {
     })
 }
 todo()
+
+
+// ---- end of todo list ----
+
+
+// --- daily planner ---
+
+Array.from({ length: 19 }, (_, i) => i + 6).map((hour) => {
+    const timeElement = document.createElement('div');
+    timeElement.className = 'day-plan-time';
+    timeElement.innerHTML = `
+        <p>${hour}:00 AM</p>
+        <input type="text" placeholder=" ">
+    `;
+    document.querySelector('.day-planner').appendChild(timeElement);
+});
+

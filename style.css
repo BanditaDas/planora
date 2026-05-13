@@ -282,7 +282,6 @@ section.allelm {
   top: -6%;
   left: -0.2vw;
   font-size: 1.5vw;
-  animation: breathe 1.5s infinite ease-in-out;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -318,4 +317,63 @@ section.allelm {
 }
 .alltask::-webkit-scrollbar{
     display: none;
+}
+
+
+/* daily planner */
+
+
+.daily-fullpg{
+  display: none;
+  background: #f4ddd2;
+  padding: 2vw;
+  overflow: hidden;
+}
+
+.daily-fullpg h1 {
+  font-size: 3vw;
+  margin-bottom: 2vw;
+  color: var(--txt);
+  letter-spacing: -1px;
+}
+.daily-fullpg .day-planner{
+  background-color: #E8C7B7;
+  height: 85%;
+  margin-top: 2vw;
+  width: 100%;
+  border-radius: 2vw;
+  padding: 2vw;
+  overflow-y: auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+.daily-fullpg .day-planner::-webkit-scrollbar{
+    display: none;
+}
+
+.daily-fullpg .day-planner .day-plan-time{
+  display: flex;
+  gap: 1vw;
+  align-items: center;
+  margin-bottom: 1.5vw;
+  width: 48%;
+}
+.day-planner .day-plan-time p{
+  font-size: 1vw;
+  font-weight: 600;
+  width: 80px;
+}
+.day-planner .day-plan-time input{
+  background-color: #eee;
+  border: none;
+  padding: 0.8vw;
+  font-size: 1vw;
+  width: 95%;
+  border-radius: 1vw;
+  color: var(--txt);
+  box-shadow: #d6b099 0px 5px 15px;
+  cursor: pointer;
+  outline: none;
 }
