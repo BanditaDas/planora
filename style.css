@@ -369,7 +369,8 @@ section.allelm {
   background-color: #eee;
   border: none;
   padding: 0.8vw;
-  font-size: 1vw;
+  font-size: 1.1vw;
+  font-weight: 600;
   width: 95%;
   border-radius: 1vw;
   color: var(--txt);

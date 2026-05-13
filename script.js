@@ -112,28 +112,52 @@ todo()
 
 // --- daily planner ---
 
+
+
 var dayPlanData = JSON.parse(localStorage.getItem('dayPlanData')) || {};
 
-var plan = document.querySelectorAll('.day-plan-time input')
+// CREATE ELEMENTS FIRST
+Array.from({ length: 20 }, (_, i) => i + 5).forEach((hour, idx) => {
 
-Array.from({ length: 20 }, (_, i) => i + 5).map((hour,idx) => {
+    let displayHour = hour > 12 ? hour - 12 : hour;
+    let period = hour >= 12 ? 'PM' : 'AM';
+
     const timeElement = document.createElement('div');
+
     timeElement.className = 'day-plan-time';
+
     timeElement.innerHTML = `
-        <p>${hour}:00 AM</p>
-        <input id=${idx} type="text" placeholder=" ">
+        <p>${displayHour}:00 ${period}</p>
+        <input 
+            id="${idx}" 
+            type="text" 
+            placeholder=" "
+            value="${dayPlanData[idx] || ''}"
+        >
     `;
+
     document.querySelector('.day-planner').appendChild(timeElement);
 });
 
 
+// NOW SELECT INPUTS
+var plan = document.querySelectorAll('.day-plan-time input');
 
+
+// ADD EVENT LISTENERS
 plan.forEach(function (elem) {
+
     elem.addEventListener('input', function () {
+
         dayPlanData[elem.id] = elem.value;
 
-        localStorage.setItem('dayPlanData', JSON.stringify(dayPlanData))
-        
-    })
-})
+        localStorage.setItem(
+            'dayPlanData',
+            JSON.stringify(dayPlanData)
+        );
 
+        console.log(dayPlanData);
+
+    });
+
+});
