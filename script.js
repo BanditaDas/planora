@@ -161,3 +161,8 @@ plan.forEach(function (elem) {
     });
 
 });
+
+// --- end of daily planner ---
+
+
+// --- quote generator ---

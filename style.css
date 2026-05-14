@@ -183,8 +183,12 @@ section.allelm {
   justify-content: center;
 }
 
-.todo-container .addTask form .important-container input[type="checkbox"]::before {
-  content: '\f005';
+.todo-container
+  .addTask
+  form
+  .important-container
+  input[type="checkbox"]::before {
+  content: "\f005";
   font-family: "Font Awesome 6 Free", "FontAwesome", sans-serif;
   font-weight: 900;
   font-size: 1.3vw;
@@ -194,7 +198,11 @@ section.allelm {
   transition: all 0.2s ease;
 }
 
-.todo-container .addTask form .important-container input[type="checkbox"]:checked::before {
+.todo-container
+  .addTask
+  form
+  .important-container
+  input[type="checkbox"]:checked::before {
   color: var(--sec);
   -webkit-text-stroke: 0;
   filter: drop-shadow(0 0 5px var(--sec));
@@ -274,7 +282,6 @@ section.allelm {
   align-items: center;
   gap: 2vw;
   text-transform: uppercase;
-
 }
 
 .important-mark {
@@ -293,9 +300,7 @@ section.allelm {
   filter: drop-shadow(0 0 5px var(--sec));
 }
 
-
-
-.alltask .task p{
+.alltask .task p {
   font-size: 1.1vw;
   color: var(--txt);
   text-transform: capitalize;
@@ -315,15 +320,13 @@ section.allelm {
 .alltask .task button:hover {
   scale: 1.05;
 }
-.alltask::-webkit-scrollbar{
-    display: none;
+.alltask::-webkit-scrollbar {
+  display: none;
 }
-
 
 /* daily planner */
 
-
-.daily-fullpg{
+.daily-fullpg {
   display: none;
   background: #f4ddd2;
   padding: 2vw;
@@ -336,8 +339,9 @@ section.allelm {
   color: var(--txt);
   letter-spacing: -1px;
 }
-.daily-fullpg .day-planner{
-  background-color: #E8C7B7;
+
+.daily-fullpg .day-planner {
+  background-color: #e8c7b7;
   height: 85%;
   margin-top: 2vw;
   width: 100%;
@@ -349,23 +353,23 @@ section.allelm {
   align-items: flex-start;
   justify-content: space-between;
 }
-.daily-fullpg .day-planner::-webkit-scrollbar{
-    display: none;
+.daily-fullpg .day-planner::-webkit-scrollbar {
+  display: none;
 }
 
-.daily-fullpg .day-planner .day-plan-time{
+.daily-fullpg .day-planner .day-plan-time {
   display: flex;
   gap: 1vw;
   align-items: center;
   margin-bottom: 1.5vw;
   width: 48%;
 }
-.day-planner .day-plan-time p{
+.day-planner .day-plan-time p {
   font-size: 1vw;
   font-weight: 600;
   width: 80px;
 }
-.day-planner .day-plan-time input{
+.day-planner .day-plan-time input {
   background-color: #eee;
   border: none;
   padding: 0.8vw;
@@ -377,4 +381,106 @@ section.allelm {
   box-shadow: #d6b099 0px 5px 15px;
   cursor: pointer;
   outline: none;
+}
+
+/* motivation quote */
+
+.moto-fullpg {
+  display: none;
+  background: #f4ddd2;
+  padding: 2vw;
+  overflow: hidden;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.moto-fullpg h1 {
+  font-size: 3vw;
+  margin-bottom: 2vw;
+  color: var(--txt);
+  letter-spacing: -1px;
+}
+
+.quote-card {
+  width: 90%;
+  background-color: #5d1c6a;
+  max-width: 700px;
+  padding: 50px 40px;
+  border-radius: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  text-align: center;
+  color: white;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+  animation: fadeUp 1s ease;
+}
+
+.quote-card h1 {
+  font-size: 2.7rem;
+  margin-top: 10px;
+  margin-bottom: 35px;
+  font-weight: 600;
+}
+
+.quote {
+  font-size: 1.5rem;
+  line-height: 2.3rem;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 30px;
+  min-height: 120px;
+}
+
+.author {
+  font-size: 1rem;
+  color: #d8b4fe;
+  margin-bottom: 35px;
+  font-weight: 400;
+}
+
+.new-quote {
+  padding: 14px 28px;
+  border: none;
+  border-radius: 50px;
+  background: linear-gradient(135deg, #c084fc, #7c3aed);
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.3s;
+  font-weight: 500;
+}
+
+.new-quote:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 10px 20px rgba(124, 58, 237, 0.4);
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 600px) {
+  .quote-card {
+    padding: 40px 25px;
+  }
+
+  .quote-card h1 {
+    font-size: 2rem;
+  }
+
+  .quote {
+    font-size: 1.2rem;
+    line-height: 2rem;
+  }
 }
