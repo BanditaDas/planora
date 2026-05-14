@@ -175,12 +175,12 @@ async function fetchQuote() {
         quote.innerText = "Loading motivation...";
         author.innerText = "";
 
-        const response = await fetch("https://zenquotes.io/api/today");
+        const response = await fetch("https://dummyjson.com/quotes/random");
 
         const data = await response.json();
 
-        quote.innerText = `"${data[0].q}"`;
-        author.innerText = `— ${data[0].a}`;
+        quote.innerText = `"${data.quote}"`;
+        author.innerText = `— ${data.author}`;
 
     } catch (error) {
         quote.innerText = "Failed to load quote.";
@@ -192,3 +192,5 @@ async function fetchQuote() {
 fetchQuote();
 
 newQuoteBtn.addEventListener("click", fetchQuote);
+
+// --- end of quote generator ---
