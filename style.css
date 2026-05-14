@@ -76,7 +76,7 @@ section.allelm {
 .back {
   position: absolute;
   right: 5%;
-  background-color: var(--sec);
+  background-color: #c07a5d;
   border-radius: 50%;
   padding: 1vw 1.1vw;
   font-size: 20px;
@@ -193,7 +193,7 @@ section.allelm {
   font-weight: 900;
   font-size: 1.3vw;
   color: transparent;
-  -webkit-text-stroke: 1.5px var(--txt);
+  -webkit-text-stroke: 1.5px #c07a5d;
   position: absolute;
   transition: all 0.2s ease;
 }
@@ -203,9 +203,9 @@ section.allelm {
   form
   .important-container
   input[type="checkbox"]:checked::before {
-  color: var(--sec);
+  color: #c07a5d;
   -webkit-text-stroke: 0;
-  filter: drop-shadow(0 0 5px var(--sec));
+  filter: drop-shadow(0 0 5px #c07a5d);
   transform: scale(1.1);
 }
 
@@ -220,7 +220,7 @@ section.allelm {
   padding: 1vw;
   border: none;
   border-radius: 1vw;
-  background: linear-gradient(135deg, #d96ba8, #c85c99);
+  background: #c07a5d;
   color: white;
   font-size: 1.1vw;
   font-weight: 700;
@@ -296,8 +296,8 @@ section.allelm {
 }
 
 .important-mark i {
-  color: var(--sec);
-  filter: drop-shadow(0 0 5px var(--sec));
+  color: #c07a5d;
+  filter: drop-shadow(0 0 5px #c07a5d);
 }
 
 .alltask .task p {
@@ -310,7 +310,7 @@ section.allelm {
   padding: 0.7vw 1vw;
   border: none;
   border-radius: 0.8vw;
-  background: var(--sec);
+  background: #c07a5d;
   color: white;
   font-weight: 600;
   cursor: pointer;
@@ -387,86 +387,107 @@ section.allelm {
 
 .moto-fullpg {
   display: none;
-  background: #f4ddd2;
-  padding: 2vw;
   width: 100%;
   height: 100vh;
+  background: linear-gradient(135deg, #f6e7df, #f1d4c6, #efd2c2);
   position: relative;
   overflow: hidden;
+  padding: 2vw;
+  font-family: "Poppins", sans-serif;
 }
 
-.moto-fullpg h1 {
-  font-size: 3vw;
-  margin-bottom: 2vw;
-  color: var(--txt);
-  letter-spacing: -1px;
+.moto-fullpg::before {
+  content: "";
+  position: absolute;
+  width: 35vw;
+  height: 35vw;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.35);
+  top: -10%;
+  right: -10%;
+  filter: blur(40px);
+}
+
+.moto-fullpg::after {
+  content: "";
+  position: absolute;
+  width: 28vw;
+  height: 28vw;
+  border-radius: 50%;
+  background: rgba(232, 199, 183, 0.6);
+  bottom: -10%;
+  left: -10%;
+  filter: blur(50px);
 }
 
 .quote-card {
-  width: 100%;
-  height: 45%;
-  margin-top: 0%;
-  background-color: #E8C7B7;
-  max-width: 700px;
-  padding: 50px 40px;
-  border-radius: 30px;
-  backdrop-filter: blur(20px);
-  text-align: center;
-  color: var(--txt);
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
-  animation: fadeUp 1s ease;
+  width: 90%;
+  max-width: 750px;
+  padding: 4vw 3vw;
+  border-radius: 2vw;
+  background: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.08),
+    inset 0 1px 1px rgba(255, 255, 255, 0.5);
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  text-align: center;
+  overflow: hidden;
+}
+
+.quote-card::before {
+  content: "❝";
+  position: absolute;
+  top: -2vw;
+  left: 2vw;
+  font-size: 8vw;
+  color: rgba(255, 255, 255, 0.35);
+  font-family: serif;
 }
 
 .quote-card h1 {
-  font-size: 2.7rem;
-  margin-top: 10px;
-  margin-bottom: 35px;
+  font-size: 3vw;
+  color: var(--txt);
+  margin-bottom: 2vw;
   font-weight: 600;
+  letter-spacing: -1px;
 }
 
 .quote {
-  font-size: 1.5rem;
-  line-height: 2.3rem;
-  color: var(--txt);
-  margin-bottom: 30px;
-  min-height: 120px;
+  font-size: 1.5vw;
+  line-height: 2.6vw;
+  color: #4b3832;
+  margin-bottom: 2vw;
+  font-weight: 400;
+  min-height: 8vw;
 }
 
 .author {
-  font-size: 1rem;
-  color: var(--txt);
-  margin-bottom: 35px;
-  font-weight: 400;
+  font-size: 1vw;
+  color: #7a5c52;
+  margin-bottom: 2vw;
+  letter-spacing: 1px;
+  text-transform: uppercase;
 }
 
 .new-quote {
-  padding: 14px 28px;
+  padding: 1vw 2vw;
   border: none;
-  border-radius: 50px;
-  background: var(--sec);
+  border-radius: 100px;
+  background: linear-gradient(135deg, #d79b84, #c07a5d);
   color: white;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: 0.3s;
+  font-size: 1vw;
   font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 20px rgba(192, 122, 93, 0.2);
 }
 
 .new-quote:hover {
   transform: translateY(-3px) scale(1.03);
-  box-shadow: 0 10px 20px rgba(231, 103, 231, 0.4);
-}
-
-@keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translate(-50%, -50%) translateY(40px);
-  }
-  to {
-    opacity: 1;
-    transform: translate(-50%, -50%);
-  }
+  box-shadow: 0 14px 25px rgba(192, 122, 93, 0.35);
 }
