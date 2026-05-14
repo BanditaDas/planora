@@ -166,3 +166,29 @@ plan.forEach(function (elem) {
 
 
 // --- quote generator ---
+const quote = document.getElementById("quote");
+const author = document.getElementById("author");
+const newQuoteBtn = document.getElementById("newQuoteBtn");
+
+async function fetchQuote() {
+    try {
+        quote.innerText = "Loading motivation...";
+        author.innerText = "";
+
+        const response = await fetch("https://zenquotes.io/api/today");
+
+        const data = await response.json();
+
+        quote.innerText = `"${data[0].q}"`;
+        author.innerText = `— ${data[0].a}`;
+
+    } catch (error) {
+        quote.innerText = "Failed to load quote.";
+        author.innerText = "Please try again.";
+        console.log(error);
+    }
+}
+
+fetchQuote();
+
+newQuoteBtn.addEventListener("click", fetchQuote);
