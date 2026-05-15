@@ -196,3 +196,74 @@ newQuoteBtn.addEventListener("click", fetchQuote);
 // --- end of quote generator ---
 
 // --pomodoro timer ---
+
+const timeEl = document.getElementById("time");
+const progress = document.getElementById("progress");
+const startBtn = document.getElementById("start");
+const pauseBtn = document.getElementById("pause");
+const resetBtn = document.getElementById("reset");
+const sessionEl = document.getElementById("session");
+
+let totalTime = 25 * 60;
+let timeLeft = totalTime;
+let timer;
+let session = 1;
+let isRunning = false;
+
+const radius = 105;
+const circumference = 2 * Math.PI * radius;
+
+progress.style.strokeDasharray = circumference;
+
+function updateTimer() {
+    timeLeft--;
+
+    const minutes = Math.floor(timeLeft / 60);
+    const seconds = timeLeft % 60;
+
+    timeEl.innerText =
+        `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+
+    const offset =
+        circumference - (timeLeft / totalTime) * circumference;
+
+    progress.style.strokeDashoffset = offset;
+
+    if (timeLeft <= 0) {
+        clearInterval(timer);
+        isRunning = false;
+
+        session++;
+        sessionEl.innerText = session;
+
+        timeLeft = totalTime;
+
+        setTimeout(() => {
+            alert("Pomodoro Completed 🍅");
+            timeEl.innerText = "25:00";
+            progress.style.strokeDashoffset = 0;
+        }, 100);
+    }
+}
+
+startBtn.addEventListener("click", () => {
+    if (!isRunning) {
+        isRunning = true;
+        timer = setInterval(updateTimer, 1000);
+    }
+});
+
+pauseBtn.addEventListener("click", () => {
+    clearInterval(timer);
+    isRunning = false;
+});
+
+resetBtn.addEventListener("click", () => {
+    clearInterval(timer);
+    isRunning = false;
+    timeLeft = totalTime;
+
+    progress.style.strokeDashoffset = 0;
+
+    timeEl.innerText = "25:00";
+});
