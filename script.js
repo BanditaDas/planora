@@ -194,3 +194,5 @@ fetchQuote();
 newQuoteBtn.addEventListener("click", fetchQuote);
 
 // --- end of quote generator ---
+
+// --pomodoro timer ---
