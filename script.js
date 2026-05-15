@@ -230,6 +230,48 @@ function updateDisplay() {
     }
 }
 
+// Slides down a custom animated notification
+function showCompletionMessage() {
+    const msgBox = document.createElement("div");
+    msgBox.innerText = "Pomodoro Completed 🍅 Time for a break!";
+    Object.assign(msgBox.style, {
+        position: "fixed",
+        top: "-100px",
+        left: "50%",
+        transform: "translateX(-50%)",
+        background: "#c07a5d",
+        color: "white",
+        padding: "1rem 2rem",
+        borderRadius: "1rem",
+        fontWeight: "bold",
+        fontSize: "1.2rem",
+        boxShadow: "0 10px 20px rgba(192, 122, 93, 0.4)",
+        transition: "top 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55)", // gives a nice bouncy drop
+        zIndex: "9999"
+    });
+    document.body.appendChild(msgBox);
+
+    setTimeout(() => { msgBox.style.top = "40px"; }, 100);
+
+    // Remove notification after 4 seconds
+    setTimeout(() => {
+        msgBox.style.top = "-100px";
+        setTimeout(() => msgBox.remove(), 500);
+    }, 4000);
+}
+
+// Dynamically loads and shoots fireworks
+function triggerCrackers() {
+    if (!window.confetti) {
+        const script = document.createElement("script");
+        script.src = "https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js";
+        script.onload = () => window.confetti({ particleCount: 200, spread: 100, origin: { y: 0.6 } });
+        document.head.appendChild(script);
+    } else {
+        window.confetti({ particleCount: 200, spread: 100, origin: { y: 0.6 } });
+    }
+}
+
 function startTimer() {
     if (timer !== null) return;
 
@@ -250,9 +292,10 @@ function startTimer() {
             session++;
             if (sessionEl) sessionEl.innerText = session;
 
-            // Tiny delay ensures the browser paints 00:00 before the alert pops up
+            // Show custom notification and trigger confetti instead of an alert block
             setTimeout(() => {
-                alert("Pomodoro Completed 🍅");
+                showCompletionMessage();
+                triggerCrackers();
                 resetTimer();
             }, 50);
         }
