@@ -206,64 +206,81 @@ const sessionEl = document.getElementById("session");
 
 let totalTime = 25 * 60;
 let timeLeft = totalTime;
-let timer;
+let timer = null;
 let session = 1;
-let isRunning = false;
 
 const radius = 105;
 const circumference = 2 * Math.PI * radius;
 
 progress.style.strokeDasharray = circumference;
+progress.style.strokeDashoffset = 0;
 
-function updateTimer() {
-    timeLeft--;
+function updateDisplay() {
+    if (timeEl) {
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        timeEl.innerText =
+            `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+    }
 
-    const minutes = Math.floor(timeLeft / 60);
-    const seconds = timeLeft % 60;
-
-    timeEl.innerText =
-        `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
-
-    const offset =
-        circumference - (timeLeft / totalTime) * circumference;
-
-    progress.style.strokeDashoffset = offset;
-
-    if (timeLeft <= 0) {
-        clearInterval(timer);
-        isRunning = false;
-
-        session++;
-        sessionEl.innerText = session;
-
-        timeLeft = totalTime;
-
-        setTimeout(() => {
-            alert("Pomodoro Completed 🍅");
-            timeEl.innerText = "25:00";
-            progress.style.strokeDashoffset = 0;
-        }, 100);
+    if (progress) {
+        const progressValue = timeLeft / totalTime;
+        progress.style.strokeDashoffset =
+            circumference * (1 - progressValue);
     }
 }
 
-startBtn.addEventListener("click", () => {
-    if (!isRunning) {
-        isRunning = true;
-        timer = setInterval(updateTimer, 1000);
+function startTimer() {
+    if (timer !== null) return;
+
+    // Immediate tick so the UI feels responsive right away
+    if (timeLeft > 0) {
+        timeLeft--;
+        updateDisplay();
     }
-});
 
-pauseBtn.addEventListener("click", () => {
-    clearInterval(timer);
-    isRunning = false;
-});
+    timer = setInterval(() => {
+        if (timeLeft > 0) {
+            timeLeft--;
+            updateDisplay();
+        } else {
+            clearInterval(timer);
+            timer = null;
 
-resetBtn.addEventListener("click", () => {
+            session++;
+            if (sessionEl) sessionEl.innerText = session;
+
+            // Tiny delay ensures the browser paints 00:00 before the alert pops up
+            setTimeout(() => {
+                alert("Pomodoro Completed 🍅");
+                resetTimer();
+            }, 50);
+        }
+    }, 1000);
+}
+
+function pauseTimer() {
     clearInterval(timer);
-    isRunning = false;
+    timer = null;
+}
+
+function resetTimer() {
+    clearInterval(timer);
+    timer = null;
+
     timeLeft = totalTime;
 
-    progress.style.strokeDashoffset = 0;
+    // Disable transition temporarily for an instant snap-back
+    if (progress) progress.style.transition = "none";
+    updateDisplay();
 
-    timeEl.innerText = "25:00";
-});
+    setTimeout(() => {
+        if (progress) progress.style.transition = "stroke-dashoffset 1s linear";
+    }, 50);
+}
+
+if (startBtn) startBtn.addEventListener("click", startTimer);
+if (pauseBtn) pauseBtn.addEventListener("click", pauseTimer);
+if (resetBtn) resetBtn.addEventListener("click", resetTimer);
+
+updateDisplay();
