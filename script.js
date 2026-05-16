@@ -203,11 +203,48 @@ const startBtn = document.getElementById("start");
 const pauseBtn = document.getElementById("pause");
 const resetBtn = document.getElementById("reset");
 const sessionEl = document.getElementById("session");
+const timerBtns = document.querySelector(".timer-btns");
 
 let totalTime = 25 * 60;
 let timeLeft = totalTime;
 let timer = null;
 let session = 1;
+let is50MinMode = false;
+
+// Dynamically create the mode toggle button
+// Dynamically create the mode buttons container
+const timerCard = document.querySelector(".timer-card");
+const modeBtnsContainer = document.createElement("div");
+modeBtnsContainer.className = "mode-btns";
+
+const toggleModeBtn = document.createElement("button");
+toggleModeBtn.innerText = "Switch to 50 Min";
+if (timerBtns) {
+    timerBtns.appendChild(toggleModeBtn);
+}
+const breakBtn = document.createElement("button");
+breakBtn.innerText = "10 Min Break";
+
+modeBtnsContainer.appendChild(toggleModeBtn);
+modeBtnsContainer.appendChild(breakBtn);
+
+if (timerCard) {
+    timerCard.appendChild(modeBtnsContainer);
+}
+
+toggleModeBtn.addEventListener("click", () => {
+    is50MinMode = !is50MinMode;
+    totalTime = is50MinMode ? 50 * 60 : 25 * 60;
+    toggleModeBtn.innerText = is50MinMode ? "Switch to 25 Min" : "Switch to 50 Min";
+    resetTimer();
+});
+
+breakBtn.addEventListener("click", () => {
+    totalTime = 10 * 60;
+    is50MinMode = false;
+    toggleModeBtn.innerText = "Switch to 50 Min";
+    resetTimer();
+});
 
 const radius = 105;
 const circumference = 2 * Math.PI * radius;
