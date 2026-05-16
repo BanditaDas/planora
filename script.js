@@ -208,7 +208,8 @@ const timerBtns = document.querySelector(".timer-btns");
 let totalTime = 25 * 60;
 let timeLeft = totalTime;
 let timer = null;
-let session = 1;
+let session = 0;
+if (sessionEl) sessionEl.innerText = session;
 let is50MinMode = false;
 
 // Dynamically create the mode buttons container
