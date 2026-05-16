@@ -527,6 +527,7 @@ section.allelm {
         0 10px 30px rgba(0, 0, 0, 0.08),
         inset 0 1px 1px rgba(255, 255, 255, 0.5);
   text-align: center;
+  position: relative;
 }
 
 .timer-top {
@@ -627,4 +628,30 @@ section.allelm {
 
 .timer-btns button:hover {
   transform: translateY(-3px);
+}
+
+.mode-btns {
+  position: absolute;
+  top: 1.5vw;
+  left: 1.5vw;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5vw;
+  z-index: 10;
+}
+
+.mode-btns button {
+  padding: 0.5vw 1vw;
+  border: none;
+  border-radius: 8px;
+  background: rgba(192, 122, 93, 0.2);
+  color: #c07a5d;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.mode-btns button:hover {
+  background: rgba(192, 122, 93, 0.4);
 }

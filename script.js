@@ -211,7 +211,6 @@ let timer = null;
 let session = 1;
 let is50MinMode = false;
 
-// Dynamically create the mode toggle button
 // Dynamically create the mode buttons container
 const timerCard = document.querySelector(".timer-card");
 const modeBtnsContainer = document.createElement("div");
@@ -219,9 +218,7 @@ modeBtnsContainer.className = "mode-btns";
 
 const toggleModeBtn = document.createElement("button");
 toggleModeBtn.innerText = "Switch to 50 Min";
-if (timerBtns) {
-    timerBtns.appendChild(toggleModeBtn);
-}
+
 const breakBtn = document.createElement("button");
 breakBtn.innerText = "10 Min Break";
 
