@@ -631,13 +631,9 @@ section.allelm {
 }
 
 .mode-btns {
-  position: absolute;
-  top: 1.5vw;
-  left: 1.5vw;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 0.5vw;
-  z-index: 10;
 }
 
 .mode-btns button {

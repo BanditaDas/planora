@@ -212,7 +212,7 @@ let session = 1;
 let is50MinMode = false;
 
 // Dynamically create the mode buttons container
-const timerCard = document.querySelector(".timer-card");
+const timerTop = document.querySelector(".timer-top");
 const modeBtnsContainer = document.createElement("div");
 modeBtnsContainer.className = "mode-btns";
 
@@ -225,8 +225,11 @@ breakBtn.innerText = "10 Min Break";
 modeBtnsContainer.appendChild(toggleModeBtn);
 modeBtnsContainer.appendChild(breakBtn);
 
-if (timerCard) {
-    timerCard.appendChild(modeBtnsContainer);
+if (timerTop) {
+    // Hide the static timer-label to make space for our newly placed buttons
+    const timerLabel = timerTop.querySelector(".timer-label");
+    if (timerLabel) timerLabel.style.display = "none";
+    timerTop.prepend(modeBtnsContainer);
 }
 
 toggleModeBtn.addEventListener("click", () => {
