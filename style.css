@@ -34,24 +34,33 @@ section.allelm {
   padding-top: 5vw;
   height: 100%;
   width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
+  display: grid;
+  grid-template-columns: 1fr 1.2fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  grid-template-areas:
+    "left-top center right-top"
+    "left-bottom center right-bottom";
   gap: 2vw;
   position: absolute;
 }
 .elem {
   background-color: var(--sec);
-  width: 270px;
-  height: 310px;
+  width: 100%;
+  height: 100%;
   border-radius: 2vw;
   font-size: 1vw;
   overflow: hidden;
   position: relative;
   transition: all 0.2s ease;
-  flex-shrink: 0;
   box-shadow: #deb7a1 0px 5px 15px;
 }
+
+.todo { grid-area: left-top; }
+.daily { grid-area: left-bottom; }
+.goals { grid-area: center; }
+.pomo { grid-area: right-top; }
+.moto { grid-area: right-bottom; }
+
 .elem img {
   height: 100%;
   width: 100%;
