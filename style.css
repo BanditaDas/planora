@@ -663,8 +663,77 @@ section.allelm {
 
 /* weather */
 
-.goals{
+.goals {
   display: flex;
   flex-direction: column;
   padding: 2vw;
+  position: relative;
+  overflow: hidden;
+  justify-content: space-between;
+}
+
+.goals img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  filter: brightness(0.65); /* Darken image slightly for text visibility */
+}
+
+/* Places all children above the image */
+.goals > *:not(img) {
+  position: relative;
+  z-index: 1;
+  color: #fff;
+  text-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+#w-city {
+  font-size: 2.2vw;
+  font-weight: 700;
+  margin-bottom: 0.2vw;
+  color: #fff;
+}
+
+#w-datetime {
+  font-size: 1vw;
+  color: #f4ddd2;
+  margin-bottom: auto; /* Automatically pushes everything below to the bottom */
+}
+
+#w-temp {
+  font-size: 4.5vw;
+  font-weight: bold;
+  margin-top: 2vw;
+  color: #fff;
+}
+
+#w-condition {
+  font-size: 1.5vw;
+  font-weight: 600;
+  color: #f4ddd2;
+  text-transform: capitalize;
+  margin-bottom: 1vw;
+}
+
+/* Recommended: Wrap your wind, precip, and humidity data in a div with this class */
+.weather-details {
+  display: flex;
+  gap: 1.5vw;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(12px);
+  padding: 1vw;
+  border-radius: 1vw;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.weather-details p,
+.weather-details span {
+  font-size: 1vw;
+  font-weight: 600;
+  color: white;
+  text-shadow: none; /* Removed text shadow for a cleaner look on the blurred background */
 }
