@@ -660,3 +660,11 @@ section.allelm {
 .mode-btns button:hover {
   background: rgba(192, 122, 93, 0.4);
 }
+
+/* weather */
+
+.goals{
+  display: flex;
+  flex-direction: column;
+  padding: 2vw;
+}

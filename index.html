@@ -12,9 +12,6 @@
 
 <body>
     <div id="main">
-        <!-- <nav>
-
-        </nav> -->
 
         <section class="allelm">
             <div class="todo elem" id="0">
@@ -33,9 +30,21 @@
                 <img src="https://i.pinimg.com/1200x/ee/24/47/ee2447fbdffd8a35788f3f7f86d297aa.jpg" alt="">
                 <h2>Motivation</h2>
             </div>
-            <div class="goals elem" id="4">
-                <img src="https://i.pinimg.com/736x/cd/de/da/cddeda77e5fdbd5a85ac40d5aba08f06.jpg" alt="">
-                <h2>Goals</h2>
+            <div class="goals elem">
+                <h1>Weather 🌤️</h1>
+                <div class="weather-card">
+                    <h2 id="w-city">Loading...</h2>
+                    <h3 id="w-datetime">--</h3>
+                    <div class="weather-main">
+                        <h1 id="w-temp">--°C</h1>
+                        <p id="w-condition">--</p>
+                    </div>
+                    <div class="w-details">
+                        <p>Precipitation: <span id="w-precip">--</span> mm</p>
+                        <p>Humidity: <span id="w-humidity">--</span>%</p>
+                        <p>Wind: <span id="w-wind">--</span> km/h</p>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -139,7 +148,6 @@
                 </button>
             </div>
         </section>
-
         
     </div>
 

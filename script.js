@@ -5,9 +5,11 @@ function openpg() {
 
     allelem.forEach(function (elem) {
         elem.addEventListener('click', function () {
-
-            fullelem[elem.id].style.display = 'block'
-            localStorage.setItem('openFullPage', elem.id)
+            // Only open a full page if the card has a valid ID mapped to a page
+            if (elem.id && fullelem[elem.id]) {
+                fullelem[elem.id].style.display = 'block';
+                localStorage.setItem('openFullPage', elem.id);
+            }
 
         })
 
@@ -365,3 +367,31 @@ if (pauseBtn) pauseBtn.addEventListener("click", pauseTimer);
 if (resetBtn) resetBtn.addEventListener("click", resetTimer);
 
 updateDisplay();
+
+// ---- end of pomodoro timer ----
+
+
+// --- weather widget ---
+
+const apikey = 'b2396b3dd79f47c3b5f41751262405';
+const city = "kolkata";
+
+async function fetchWeather() {
+    try {
+        var response = await fetch(`https://api.weatherapi.com/v1/current.json?key=${apikey}&q=${city}`);
+        
+        var data = await response.json();
+
+        document.getElementById('w-city').innerText = data.location.name;
+        document.getElementById('w-datetime').innerText = data.location.localtime;
+        document.getElementById('w-temp').innerText = `${data.current.temp_c}°C`;
+        document.getElementById('w-condition').innerText = data.current.condition.text;
+        document.getElementById('w-precip').innerText = data.current.precip_mm;
+        document.getElementById('w-humidity').innerText = data.current.humidity;
+        document.getElementById('w-wind').innerText = data.current.wind_kph;
+    } catch (error) {
+        console.error("Error fetching weather:", error);
+    }
+}
+
+fetchWeather()
