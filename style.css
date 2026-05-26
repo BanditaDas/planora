@@ -691,28 +691,42 @@ section.allelm {
   text-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
 }
 
+.weather-card {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  margin-top: 1vw;
+}
+
+.weather-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: auto; /* Automatically pushes this whole block to the bottom */
+  border-top: 1px solid rgba(255, 255, 255, 0.3); /* Adds a nice divider line */
+  padding-top: 1vw;
+}
+
 #w-city {
-  font-size: 2.2vw;
+  font-size: 2.5vw;
   font-weight: 700;
-  margin-bottom: 0.2vw;
   color: #fff;
 }
 
 #w-datetime {
-  font-size: 1vw;
+  font-size: 1.2vw;
   color: #f4ddd2;
-  margin-bottom: auto; /* Automatically pushes everything below to the bottom */
+  margin-bottom: 0.4vw; /* Aligns visually with the larger city font */
 }
 
 #w-temp {
-  font-size: 4.5vw;
+  font-size: 5vw;
   font-weight: bold;
-  margin-top: 2vw;
   color: #fff;
 }
 
 #w-condition {
-  font-size: 1.5vw;
+  font-size: 1.8vw;
   font-weight: 600;
   color: #f4ddd2;
   text-transform: capitalize;
@@ -728,11 +742,12 @@ section.allelm {
   padding: 1vw;
   border-radius: 1vw;
   border: 1px solid rgba(255, 255, 255, 0.4);
+  margin-bottom: 1vw;
 }
 
 .weather-details p,
 .weather-details span {
-  font-size: 1vw;
+  font-size: 1.2vw;
   font-weight: 600;
   color: white;
   text-shadow: none; /* Removed text shadow for a cleaner look on the blurred background */
