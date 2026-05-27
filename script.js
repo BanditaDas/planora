@@ -375,15 +375,47 @@ updateDisplay();
 
 const apikey = 'b2396b3dd79f47c3b5f41751262405';
 const city = "kolkata";
+let weatherTimeZone = "Asia/Kolkata";
+
+function updateWeatherTime() {
+    const now = new Date();
+    const formatter = new Intl.DateTimeFormat('en-US', { 
+        timeZone: weatherTimeZone,
+        year: 'numeric', month: '2-digit', day: '2-digit',
+        hour: '2-digit', minute: '2-digit', hour12: false
+    });
+    
+    const parts = formatter.formatToParts(now);
+    const dateParts = {};
+    parts.forEach(({ type, value }) => {
+        dateParts[type] = value;
+    });
+    
+    // Some locales return '24' for midnight when hour12 is false
+    if (dateParts.hour === '24') dateParts.hour = '00';
+    
+    const formattedTime = `${dateParts.year}-${dateParts.month}-${dateParts.day} ${dateParts.hour}:${dateParts.minute}`;
+    const datetimeElem = document.getElementById('w-datetime');
+    if (datetimeElem) {
+        datetimeElem.innerText = formattedTime;
+    }
+}
+
+// Update the time on the widget every minute
+setInterval(updateWeatherTime, 60000);
 
 async function fetchWeather() {
     try {
         var response = await fetch(`https://api.weatherapi.com/v1/current.json?key=${apikey}&q=${city}`);
         
         var data = await response.json();
+        
+        if (data.location && data.location.tz_id) {
+            weatherTimeZone = data.location.tz_id;
+        }
 
         document.getElementById('w-city').innerText = data.location.name;
-        document.getElementById('w-datetime').innerText = data.location.localtime;
+        updateWeatherTime();
         document.getElementById('w-temp').innerText = `${data.current.temp_c}°C`;
         document.getElementById('w-condition').innerText = data.current.condition.text;
         document.getElementById('w-precip').innerText = data.current.precip_mm;
