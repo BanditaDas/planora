@@ -374,7 +374,7 @@ updateDisplay();
 // --- weather widget ---
 
 const apikey = 'b2396b3dd79f47c3b5f41751262405';
-const city = "kolkata";
+const defaultCity = "kolkata";
 let weatherTimeZone = "Asia/Kolkata";
 
 function updateWeatherTime() {
@@ -404,9 +404,9 @@ function updateWeatherTime() {
 // Update the time on the widget every minute
 setInterval(updateWeatherTime, 60000);
 
-async function fetchWeather() {
+async function fetchWeather(query) {
     try {
-        var response = await fetch(`https://api.weatherapi.com/v1/current.json?key=${apikey}&q=${city}`);
+        var response = await fetch(`https://api.weatherapi.com/v1/current.json?key=${apikey}&q=${query}`);
         
         var data = await response.json();
         
@@ -426,4 +426,20 @@ async function fetchWeather() {
     }
 }
 
-fetchWeather()
+function initWeather() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                fetchWeather(`${position.coords.latitude},${position.coords.longitude}`);
+            },
+            (error) => {
+                console.log("Geolocation access denied or failed. Using default city.");
+                fetchWeather(defaultCity);
+            }
+        );
+    } else {
+        fetchWeather(defaultCity);
+    }
+}
+
+initWeather();
