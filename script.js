@@ -1,511 +1,523 @@
-// ---- entrance + card interactions ----
+var reduceMotion = localStorage.getItem('planora_reduceMotion') === '1';
+function canAnimate() { return window.gsap && !reduceMotion; }
 
-var cards = document.querySelectorAll('.elem');
+// ---------------- sidebar navigation ----------------
 
-cards.forEach(function (card) {
-    var rot = card.getAttribute('data-rot') || 0;
-    card.style.setProperty('--rot', rot + 'deg');
+var navItems = document.querySelectorAll('.nav-item');
+var views = document.querySelectorAll('.view');
+var indicator = document.getElementById('nav-indicator');
+var viewTitle = document.getElementById('view-title');
+var mainNavList = document.querySelectorAll('.nav .nav-item');
+
+function moveIndicator(target) {
+    if (!indicator || !target || target.closest('.nav') === null) return;
+    var navRect = target.parentElement.getBoundingClientRect();
+    var itemRect = target.getBoundingClientRect();
+    var top = itemRect.top - navRect.top;
+    if (canAnimate()) {
+        gsap.to(indicator, { y: top, duration: 0.4, ease: "power3.out" });
+    } else {
+        indicator.style.transform = "translateY(" + top + "px)";
+    }
+}
+
+function switchView(name, clickedEl) {
+    views.forEach(function (v) { v.classList.remove('active'); });
+    var target = document.getElementById('view-' + name);
+    if (!target) return;
+    target.classList.add('active');
+
+    if (canAnimate()) {
+        gsap.fromTo(target, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" });
+        var cards = target.querySelectorAll('.card');
+        gsap.fromTo(cards, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out", stagger: 0.05, delay: 0.05 });
+    }
+
+    navItems.forEach(function (n) { n.classList.remove('active'); });
+    var navBtn = document.querySelector('.nav-item[data-view="' + name + '"]');
+    if (navBtn) {
+        navBtn.classList.add('active');
+        if (navBtn.closest('.nav')) moveIndicator(navBtn);
+    }
+
+    viewTitle.innerText = navBtn ? navBtn.querySelector('span').innerText : name;
+
+    if (name === 'stats') renderStats();
+}
+
+document.querySelectorAll('[data-view]').forEach(function (el) {
+    el.addEventListener('click', function () {
+        switchView(el.getAttribute('data-view'), el);
+    });
 });
 
-if (window.gsap) {
-    gsap.set(cards, { opacity: 0, y: 40, scale: 0.92 });
-    gsap.to(cards, {
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        duration: 0.7,
-        ease: "back.out(1.6)",
-        stagger: 0.09,
-        delay: 0.1
-    });
+window.addEventListener('load', function () {
+    var active = document.querySelector('.nav-item.active');
+    moveIndicator(active);
+});
+window.addEventListener('resize', function () {
+    var active = document.querySelector('.nav-item.active');
+    moveIndicator(active);
+});
 
-    cards.forEach(function (card) {
-        var baseRot = parseFloat(card.getAttribute('data-rot') || 0);
-
-        card.addEventListener('mouseenter', function () {
-            gsap.to(card, { rotate: 0, y: -8, scale: 1.03, duration: 0.4, ease: "power3.out" });
-        });
-        card.addEventListener('mouseleave', function () {
-            gsap.to(card, { rotate: baseRot, y: 0, scale: 1, duration: 0.5, ease: "power3.out" });
-        });
-        card.addEventListener('mousedown', function () {
-            gsap.to(card, { scale: 0.97, duration: 0.15 });
-        });
-        card.addEventListener('mouseup', function () {
-            gsap.to(card, { scale: 1.03, duration: 0.15 });
-        });
-    });
-}
-
-// ---- cursor-reactive blob ----
-
-var blob = document.getElementById('blob');
-if (window.gsap && blob) {
-    var moveBlobX = gsap.quickTo(blob, "x", { duration: 1.2, ease: "power3.out" });
-    var moveBlobY = gsap.quickTo(blob, "y", { duration: 1.2, ease: "power3.out" });
-
-    window.addEventListener('mousemove', function (e) {
-        var relX = (e.clientX / window.innerWidth - 0.5) * 120;
-        var relY = (e.clientY / window.innerHeight - 0.5) * 120;
-        moveBlobX(relX);
-        moveBlobY(relY);
-    });
-}
-
-// ---- live clock ----
+// ---------------- live clock ----------------
 
 function tickClock() {
-    var el = document.getElementById('live-clock');
-    if (!el) return;
+    var clockEl = document.getElementById('live-clock');
+    var dateEl = document.getElementById('live-date');
+    if (!clockEl) return;
     var now = new Date();
     var h = String(now.getHours()).padStart(2, '0');
     var m = String(now.getMinutes()).padStart(2, '0');
-    el.innerText = h + ':' + m;
+    clockEl.innerText = h + ':' + m;
+    if (dateEl) {
+        dateEl.innerText = now.toLocaleDateString(undefined, { weekday: 'long', month: 'short', day: 'numeric' });
+    }
 }
 tickClock();
 setInterval(tickClock, 1000 * 10);
 
+// ---------------- streak ----------------
 
-// ---- page open / close with transitions ----
+(function trackStreak() {
+    var today = new Date().toDateString();
+    var lastOpen = localStorage.getItem('planora_lastOpen');
+    var streak = parseInt(localStorage.getItem('planora_streak') || '0', 10);
 
-function openpg() {
-    var allelem = document.querySelectorAll('.elem')
-    var fullelem = document.querySelectorAll('.fullelem')
-    var backbtn = document.querySelectorAll('.fullelem .back')
-
-    function showPage(el) {
-        el.style.display = 'block';
-        if (window.gsap) {
-            gsap.fromTo(el, { opacity: 0, y: 26, scale: 0.98 }, { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: "power3.out" });
-            var innerBits = el.querySelectorAll('h1, .page-eyebrow, .todo-container, .day-planner, .pomo-timer, .quote-card');
-            gsap.fromTo(innerBits, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out", stagger: 0.06, delay: 0.08 });
-        }
-    }
-
-    function hidePage(el) {
-        if (window.gsap) {
-            gsap.to(el, {
-                opacity: 0, y: 16, scale: 0.98, duration: 0.3, ease: "power2.in",
-                onComplete: function () { el.style.display = 'none'; }
-            });
+    if (lastOpen !== today) {
+        var yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        if (lastOpen === yesterday.toDateString()) {
+            streak += 1;
         } else {
-            el.style.display = 'none';
+            streak = 1;
         }
+        localStorage.setItem('planora_streak', streak);
+        localStorage.setItem('planora_lastOpen', today);
     }
 
-    allelem.forEach(function (elem) {
-        elem.addEventListener('click', function () {
-            if (elem.id !== '' && fullelem[elem.id]) {
-                showPage(fullelem[elem.id]);
-                localStorage.setItem('openFullPage', elem.id);
-            }
-        })
-    })
+    var el = document.getElementById('streak-count');
+    if (el) el.innerText = streak;
+})();
 
-    backbtn.forEach(function (back) {
-        back.addEventListener('click', function () {
-            hidePage(fullelem[back.id]);
-            localStorage.removeItem('openFullPage')
-        })
-    })
+// ---------------- tasks ----------------
 
-    var openPageId = localStorage.getItem('openFullPage');
-    if (openPageId !== null && fullelem[openPageId]) {
-        fullelem[openPageId].style.display = 'block';
-    }
-}
-openpg()
+var taskListEl = document.getElementById('taskList');
+var addTaskForm = document.getElementById('addTaskForm');
+var taskInput = document.getElementById('taskInput');
+var taskImportant = document.getElementById('taskImportant');
+var tasksCountEl = document.getElementById('tasks-count');
 
+var tasks = JSON.parse(localStorage.getItem('planora_tasks') || '[]');
+var completedTotal = parseInt(localStorage.getItem('planora_completedTotal') || '0', 10);
+var weekCompletions = JSON.parse(localStorage.getItem('planora_weekCompletions') || '{}');
 
-// ---- todo list ----
+function saveTasks() { localStorage.setItem('planora_tasks', JSON.stringify(tasks)); }
 
-var form = document.querySelector('.addTask form')
-var input = document.querySelector('.addTask form input')
-var detsinput = document.querySelector('.addTask form textarea')
-var Checkbox = document.querySelector('.addTask form input[type="checkbox"]')
-
-var curtask = []
-
-if (localStorage.getItem('currentTaskList')) {
-    curtask = JSON.parse(localStorage.getItem('currentTaskList'))
-} else {
-    console.log("Task list is empty");
-}
-
-function renderTask() {
-    var alltasks = document.querySelector('.alltask')
-    var sum = " "
-
-    curtask.forEach(function (elem, index) {
-        sum += `<div class="task" style="animation-delay:${index * 0.05}s">
-                        ${elem.imp ? '<span class="important-mark"><i class="fa-solid fa-star"></i></span>' : ''}
-                        <div class="task-details">
-                            <h5>${elem.task}</h5>
-                            <p>${elem.dets}</p>
-                        </div>
-                        <button id="${index}">complete</button>
-                    </div>`
-    })
-
-    alltasks.innerHTML = sum
-
-    var markCompleteBtn = document.querySelectorAll('.task button')
-    markCompleteBtn.forEach(function (btn) {
-        btn.addEventListener("click", function () {
-            var taskCard = btn.closest('.task');
-            if (window.gsap && taskCard) {
-                gsap.to(taskCard, {
-                    opacity: 0, x: 40, duration: 0.25, ease: "power2.in",
-                    onComplete: function () {
-                        curtask.splice(btn.id, 1)
-                        localStorage.setItem('currentTaskList', JSON.stringify(curtask))
-                        renderTask()
-                    }
-                });
-            } else {
-                curtask.splice(btn.id, 1)
-                localStorage.setItem('currentTaskList', JSON.stringify(curtask))
-                renderTask()
-            }
-        })
-    })
-}
-renderTask()
-
-function todo() {
-    form.addEventListener('submit', function (e) {
-        e.preventDefault();
-
-        curtask.push({
-            task: input.value,
-            dets: detsinput.value,
-            imp: Checkbox.checked
-        })
-        localStorage.setItem('currentTaskList', JSON.stringify(curtask))
-        input.value = ''
-        detsinput.value = ''
-        Checkbox.checked = false
-
-        renderTask()
-    })
-}
-todo()
-
-// ---- end of todo list ----
-
-
-// --- daily planner ---
-
-var dayPlanData = JSON.parse(localStorage.getItem('dayPlanData')) || {};
-
-Array.from({ length: 20 }, (_, i) => i + 5).forEach((hour, idx) => {
-    let displayHour = hour > 12 ? hour - 12 : hour;
-    let period = hour >= 12 ? 'PM' : 'AM';
-
-    const timeElement = document.createElement('div');
-    timeElement.className = 'day-plan-time';
-
-    timeElement.innerHTML = `
-        <p>${displayHour}:00 ${period}</p>
-        <input 
-            id="${idx}" 
-            type="text" 
-            placeholder=" "
-            value="${dayPlanData[idx] || ''}"
-        >
-    `;
-
-    document.querySelector('.day-planner').appendChild(timeElement);
-});
-
-var plan = document.querySelectorAll('.day-plan-time input');
-
-plan.forEach(function (elem) {
-    elem.addEventListener('input', function () {
-        dayPlanData[elem.id] = elem.value;
-        localStorage.setItem('dayPlanData', JSON.stringify(dayPlanData));
+function renderTasks() {
+    if (!taskListEl) return;
+    taskListEl.innerHTML = '';
+    tasks.forEach(function (t, i) {
+        var row = document.createElement('div');
+        row.className = 'task' + (t.imp ? ' imp' : '');
+        row.innerHTML =
+            '<span class="task-check" data-i="' + i + '"></span>' +
+            '<div class="task-details"><h5>' + t.task + '</h5>' + (t.dets ? '<p>' + t.dets + '</p>' : '') + '</div>' +
+            '<button class="task-remove" data-i="' + i + '"><i class="ri-close-line"></i></button>';
+        taskListEl.appendChild(row);
     });
-});
 
-// --- end of daily planner ---
+    taskListEl.querySelectorAll('.task-check').forEach(function (chk) {
+        chk.addEventListener('click', function () { completeTask(parseInt(chk.getAttribute('data-i'), 10)); });
+    });
+    taskListEl.querySelectorAll('.task-remove').forEach(function (btn) {
+        btn.addEventListener('click', function () { removeTask(parseInt(btn.getAttribute('data-i'), 10)); });
+    });
 
+    if (tasksCountEl) tasksCountEl.innerText = tasks.length + (tasks.length === 1 ? ' left' : ' left');
+    updateProgressRing();
+}
 
-// --- quote generator ---
+function completeTask(i) {
+    var row = taskListEl.children[i];
+    var finish = function () {
+        tasks.splice(i, 1);
+        saveTasks();
+        completedTotal += 1;
+        localStorage.setItem('planora_completedTotal', completedTotal);
 
-const quote = document.getElementById("quote");
-const author = document.getElementById("author");
-const newQuoteBtn = document.getElementById("newQuoteBtn");
+        var day = new Date().toLocaleDateString(undefined, { weekday: 'short' });
+        weekCompletions[day] = (weekCompletions[day] || 0) + 1;
+        localStorage.setItem('planora_weekCompletions', JSON.stringify(weekCompletions));
+
+        renderTasks();
+    };
+    if (canAnimate() && row) {
+        gsap.to(row, { opacity: 0, x: 24, duration: 0.25, ease: "power2.in", onComplete: finish });
+    } else {
+        finish();
+    }
+}
+
+function removeTask(i) {
+    tasks.splice(i, 1);
+    saveTasks();
+    renderTasks();
+}
+
+if (addTaskForm) {
+    addTaskForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (!taskInput.value.trim()) return;
+        tasks.push({ task: taskInput.value.trim(), dets: '', imp: taskImportant.checked });
+        saveTasks();
+        taskInput.value = '';
+        taskImportant.checked = false;
+        renderTasks();
+    });
+}
+
+function updateProgressRing() {
+    var ring = document.getElementById('progress-ring');
+    var percentEl = document.getElementById('ring-percent');
+    if (!ring) return;
+    var total = completedTotal + tasks.length;
+    var pct = total === 0 ? 0 : Math.round((completedTotal / total) * 100);
+    var circumference = 314;
+    var offset = circumference - (circumference * pct) / 100;
+    if (canAnimate()) {
+        gsap.to(ring, { strokeDashoffset: offset, duration: 0.7, ease: "power2.out" });
+    } else {
+        ring.style.strokeDashoffset = offset;
+    }
+    if (percentEl) percentEl.innerText = pct + '%';
+}
+
+renderTasks();
+
+// ---------------- inbox ----------------
+
+var inboxListEl = document.getElementById('inboxList');
+var addInboxForm = document.getElementById('addInboxForm');
+var inboxInput = document.getElementById('inboxInput');
+var inboxItems = JSON.parse(localStorage.getItem('planora_inbox') || '[]');
+
+function renderInbox() {
+    if (!inboxListEl) return;
+    inboxListEl.innerHTML = '';
+    inboxItems.forEach(function (item, i) {
+        var row = document.createElement('div');
+        row.className = 'task';
+        row.innerHTML =
+            '<div class="task-details"><h5>' + item + '</h5></div>' +
+            '<button class="task-remove" data-i="' + i + '"><i class="ri-close-line"></i></button>';
+        inboxListEl.appendChild(row);
+    });
+    inboxListEl.querySelectorAll('.task-remove').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            inboxItems.splice(parseInt(btn.getAttribute('data-i'), 10), 1);
+            localStorage.setItem('planora_inbox', JSON.stringify(inboxItems));
+            renderInbox();
+        });
+    });
+}
+
+if (addInboxForm) {
+    addInboxForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (!inboxInput.value.trim()) return;
+        inboxItems.push(inboxInput.value.trim());
+        localStorage.setItem('planora_inbox', JSON.stringify(inboxItems));
+        inboxInput.value = '';
+        renderInbox();
+    });
+}
+renderInbox();
+
+// ---------------- day planner (calendar view) ----------------
+
+var dayPlanData = JSON.parse(localStorage.getItem('planora_dayPlan') || '{}');
+var plannerEl = document.getElementById('dayPlanner');
+
+if (plannerEl) {
+    Array.from({ length: 20 }, function (_, i) { return i + 5; }).forEach(function (hour, idx) {
+        var displayHour = hour > 12 ? hour - 12 : hour;
+        var period = hour >= 12 ? 'PM' : 'AM';
+
+        var el = document.createElement('div');
+        el.className = 'day-plan-time';
+        el.innerHTML =
+            '<p>' + displayHour + ':00 ' + period + '</p>' +
+            '<input id="dp-' + idx + '" type="text" placeholder=" " value="' + (dayPlanData[idx] || '') + '">';
+        plannerEl.appendChild(el);
+    });
+
+    plannerEl.querySelectorAll('input').forEach(function (input, idx) {
+        input.addEventListener('input', function () {
+            dayPlanData[idx] = input.value;
+            localStorage.setItem('planora_dayPlan', JSON.stringify(dayPlanData));
+        });
+    });
+}
+
+// ---------------- notes (widget + full, synced) ----------------
+
+var notesWidget = document.getElementById('notesWidget');
+var notesFull = document.getElementById('notesFull');
+var savedNotes = localStorage.getItem('planora_notes') || '';
+
+if (notesWidget) notesWidget.value = savedNotes;
+if (notesFull) notesFull.value = savedNotes;
+
+function syncNotes(value) {
+    localStorage.setItem('planora_notes', value);
+    if (notesWidget && notesWidget.value !== value) notesWidget.value = value;
+    if (notesFull && notesFull.value !== value) notesFull.value = value;
+}
+
+if (notesWidget) notesWidget.addEventListener('input', function () { syncNotes(notesWidget.value); });
+if (notesFull) notesFull.addEventListener('input', function () { syncNotes(notesFull.value); });
+
+// ---------------- quote generator ----------------
+
+var quoteEl = document.getElementById('quote');
+var authorEl = document.getElementById('author');
+var newQuoteBtn = document.getElementById('newQuoteBtn');
 
 async function fetchQuote() {
+    if (!quoteEl) return;
     try {
-        if (window.gsap) {
-            gsap.to([quote, author], { opacity: 0, y: 8, duration: 0.2 });
-        }
-        quote.innerText = "Loading motivation...";
-        author.innerText = "";
+        if (canAnimate()) gsap.to([quoteEl, authorEl], { opacity: 0, y: 6, duration: 0.15 });
+        quoteEl.innerText = "Loading motivation...";
+        authorEl.innerText = "";
 
-        const response = await fetch("https://dummyjson.com/quotes/random");
-        const data = await response.json();
+        var response = await fetch("https://dummyjson.com/quotes/random");
+        var data = await response.json();
 
-        quote.innerText = `"${data.quote}"`;
-        author.innerText = `— ${data.author}`;
+        quoteEl.innerText = '"' + data.quote + '"';
+        authorEl.innerText = "— " + data.author;
 
-        if (window.gsap) {
-            gsap.fromTo([quote, author], { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.4, stagger: 0.08, ease: "power2.out" });
-        }
-    } catch (error) {
-        quote.innerText = "Failed to load quote.";
-        author.innerText = "Please try again.";
-        console.log(error);
+        if (canAnimate()) gsap.fromTo([quoteEl, authorEl], { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: 0.35, stagger: 0.06 });
+    } catch (err) {
+        quoteEl.innerText = "Failed to load quote.";
+        authorEl.innerText = "Please try again.";
     }
 }
-
 fetchQuote();
-newQuoteBtn.addEventListener("click", fetchQuote);
+if (newQuoteBtn) newQuoteBtn.addEventListener('click', fetchQuote);
 
-// --- end of quote generator ---
+// ---------------- pomodoro ----------------
 
+var timeEl = document.getElementById("time");
+var pomoProgress = document.getElementById("pomo-progress");
+var startBtn = document.getElementById("start");
+var pauseBtn = document.getElementById("pause");
+var resetBtn = document.getElementById("reset");
+var sessionEl = document.getElementById("session");
+var mode25 = document.getElementById("mode25");
+var mode50 = document.getElementById("mode50");
+var pomoCard = document.querySelector(".pomodoro-card");
 
-// --pomodoro timer ---
-
-const timeEl = document.getElementById("time");
-const progress = document.getElementById("progress");
-const startBtn = document.getElementById("start");
-const pauseBtn = document.getElementById("pause");
-const resetBtn = document.getElementById("reset");
-const sessionEl = document.getElementById("session");
-const timerCard = document.querySelector(".timer-card");
-
-let totalTime = 25 * 60;
-let timeLeft = totalTime;
-let timer = null;
-let session = 0;
+var totalTime = 25 * 60;
+var timeLeft = totalTime;
+var timer = null;
+var session = 1;
 if (sessionEl) sessionEl.innerText = session;
-let is50MinMode = false;
 
-const timerTop = document.querySelector(".timer-top");
-const modeBtnsContainer = document.createElement("div");
-modeBtnsContainer.className = "mode-btns";
-
-const toggleModeBtn = document.createElement("button");
-toggleModeBtn.innerText = "Switch to 50 min";
-
-const breakBtn = document.createElement("button");
-breakBtn.innerText = "10 min break";
-
-modeBtnsContainer.appendChild(toggleModeBtn);
-modeBtnsContainer.appendChild(breakBtn);
-
-if (timerTop) {
-    const timerLabel = timerTop.querySelector(".timer-label");
-    if (timerLabel) timerLabel.style.display = "none";
-    timerTop.prepend(modeBtnsContainer);
+var radius = 60;
+var circumference = 2 * Math.PI * radius;
+if (pomoProgress) {
+    pomoProgress.style.strokeDasharray = circumference;
+    pomoProgress.style.strokeDashoffset = 0;
 }
 
-toggleModeBtn.addEventListener("click", () => {
-    is50MinMode = !is50MinMode;
-    totalTime = is50MinMode ? 50 * 60 : 25 * 60;
-    toggleModeBtn.innerText = is50MinMode ? "Switch to 25 min" : "Switch to 50 min";
-    resetTimer();
-});
-
-breakBtn.addEventListener("click", () => {
-    totalTime = 10 * 60;
-    is50MinMode = false;
-    toggleModeBtn.innerText = "Switch to 50 min";
-    resetTimer();
-});
-
-const radius = 105;
-const circumference = 2 * Math.PI * radius;
-
-progress.style.strokeDasharray = circumference;
-progress.style.strokeDashoffset = 0;
-
-function updateDisplay() {
+function updatePomoDisplay() {
     if (timeEl) {
-        const minutes = Math.floor(timeLeft / 60);
-        const seconds = timeLeft % 60;
-        timeEl.innerText = `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+        var minutes = Math.floor(timeLeft / 60);
+        var seconds = timeLeft % 60;
+        timeEl.innerText = String(minutes).padStart(2, "0") + ":" + String(seconds).padStart(2, "0");
     }
-
-    if (progress) {
-        const progressValue = timeLeft / totalTime;
-        progress.style.strokeDashoffset = circumference * (1 - progressValue);
+    if (pomoProgress) {
+        var progressValue = timeLeft / totalTime;
+        pomoProgress.style.strokeDashoffset = circumference * (1 - progressValue);
     }
 }
+
+function setMode(minutes, btn) {
+    totalTime = minutes * 60;
+    [mode25, mode50].forEach(function (b) { if (b) b.classList.remove('mode-active'); });
+    if (btn) btn.classList.add('mode-active');
+    resetPomo();
+}
+if (mode25) mode25.addEventListener('click', function () { setMode(25, mode25); });
+if (mode50) mode50.addEventListener('click', function () { setMode(50, mode50); });
 
 function showCompletionMessage() {
-    const msgBox = document.createElement("div");
-    msgBox.innerText = "Pomodoro completed 🍅 time for a break!";
+    var msgBox = document.createElement("div");
+    msgBox.innerText = "Pomodoro complete — take a break!";
     Object.assign(msgBox.style, {
-        position: "fixed",
-        top: "-100px",
-        left: "50%",
-        transform: "translateX(-50%)",
-        background: "#2a1b3d",
-        color: "#fff3ea",
-        padding: "1rem 2rem",
-        borderRadius: "100px",
-        fontWeight: "700",
-        fontFamily: "'Space Grotesk', sans-serif",
-        fontSize: "1.1rem",
-        boxShadow: "0 14px 30px rgba(42,27,61,0.35)",
-        zIndex: "9999"
+        position: "fixed", top: "-100px", left: "50%", transform: "translateX(-50%)",
+        background: "#171123", color: "#fff", padding: "0.9rem 1.6rem", borderRadius: "100px",
+        fontWeight: "700", fontFamily: "'Space Grotesk', sans-serif", fontSize: "0.95rem",
+        boxShadow: "0 14px 30px rgba(0,0,0,0.3)", zIndex: "9999"
     });
     document.body.appendChild(msgBox);
 
-    if (window.gsap) {
-        gsap.to(msgBox, { top: "40px", duration: 0.6, ease: "back.out(1.7)" });
-        gsap.to(msgBox, { top: "-100px", duration: 0.5, ease: "power2.in", delay: 3.5, onComplete: () => msgBox.remove() });
+    if (canAnimate()) {
+        gsap.to(msgBox, { top: "24px", duration: 0.5, ease: "back.out(1.7)" });
+        gsap.to(msgBox, { top: "-100px", duration: 0.4, ease: "power2.in", delay: 3, onComplete: function () { msgBox.remove(); } });
     } else {
-        setTimeout(() => { msgBox.style.top = "40px"; }, 100);
-        setTimeout(() => { msgBox.style.top = "-100px"; setTimeout(() => msgBox.remove(), 500); }, 4000);
+        setTimeout(function () { msgBox.style.top = "24px"; }, 100);
+        setTimeout(function () { msgBox.remove(); }, 3500);
     }
 }
 
 function triggerCrackers() {
     if (!window.confetti) {
-        const script = document.createElement("script");
+        var script = document.createElement("script");
         script.src = "https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js";
-        script.onload = () => window.confetti({ particleCount: 200, spread: 100, origin: { y: 0.6 }, colors: ['#ff6b4a', '#ff3d8a', '#d4ff3d', '#efe3ff'] });
+        script.onload = function () { window.confetti({ particleCount: 160, spread: 90, origin: { y: 0.6 }, colors: ['#7c5cfc', '#ff6b4a', '#c6ff3d'] }); };
         document.head.appendChild(script);
     } else {
-        window.confetti({ particleCount: 200, spread: 100, origin: { y: 0.6 }, colors: ['#ff6b4a', '#ff3d8a', '#d4ff3d', '#efe3ff'] });
+        window.confetti({ particleCount: 160, spread: 90, origin: { y: 0.6 }, colors: ['#7c5cfc', '#ff6b4a', '#c6ff3d'] });
     }
 }
 
-function pulseTimerCard() {
-    if (window.gsap && timerCard) {
-        gsap.fromTo(timerCard, { scale: 1 }, { scale: 1.04, duration: 0.18, yoyo: true, repeat: 1, ease: "power1.inOut" });
+function pulsePomoCard() {
+    if (canAnimate() && pomoCard) {
+        gsap.fromTo(pomoCard, { scale: 1 }, { scale: 1.02, duration: 0.16, yoyo: true, repeat: 1, ease: "power1.inOut" });
     }
 }
 
-function startTimer() {
+function startPomo() {
     if (timer !== null) return;
-    pulseTimerCard();
+    pulsePomoCard();
+    if (timeLeft > 0) { timeLeft--; updatePomoDisplay(); }
 
-    if (timeLeft > 0) {
-        timeLeft--;
-        updateDisplay();
-    }
-
-    timer = setInterval(() => {
+    timer = setInterval(function () {
         if (timeLeft > 0) {
             timeLeft--;
-            updateDisplay();
+            updatePomoDisplay();
         } else {
             clearInterval(timer);
             timer = null;
-
             session++;
             if (sessionEl) sessionEl.innerText = session;
-
-            setTimeout(() => {
-                showCompletionMessage();
-                triggerCrackers();
-                resetTimer();
-            }, 50);
+            setTimeout(function () { showCompletionMessage(); triggerCrackers(); resetPomo(); }, 50);
         }
     }, 1000);
 }
 
-function pauseTimer() {
-    clearInterval(timer);
-    timer = null;
-}
+function pausePomo() { clearInterval(timer); timer = null; }
 
-function resetTimer() {
+function resetPomo() {
     clearInterval(timer);
     timer = null;
     timeLeft = totalTime;
-
-    if (progress) progress.style.transition = "none";
-    updateDisplay();
-
-    setTimeout(() => {
-        if (progress) progress.style.transition = "stroke-dashoffset 1s linear";
-    }, 50);
+    if (pomoProgress) pomoProgress.style.transition = "none";
+    updatePomoDisplay();
+    setTimeout(function () { if (pomoProgress) pomoProgress.style.transition = "stroke-dashoffset 1s linear"; }, 50);
 }
 
-if (startBtn) startBtn.addEventListener("click", startTimer);
-if (pauseBtn) pauseBtn.addEventListener("click", pauseTimer);
-if (resetBtn) resetBtn.addEventListener("click", resetTimer);
+if (startBtn) startBtn.addEventListener("click", startPomo);
+if (pauseBtn) pauseBtn.addEventListener("click", pausePomo);
+if (resetBtn) resetBtn.addEventListener("click", resetPomo);
+updatePomoDisplay();
 
-updateDisplay();
+// ---------------- weather ----------------
 
-// ---- end of pomodoro timer ----
-
-
-// --- weather widget ---
-
-const apikey = 'b2396b3dd79f47c3b5f41751262405';
-const defaultCity = "kolkata";
-let weatherTimeZone = "Asia/Kolkata";
-
-function updateWeatherTime() {
-    const now = new Date();
-    const formatter = new Intl.DateTimeFormat('en-US', {
-        timeZone: weatherTimeZone,
-        year: 'numeric', month: '2-digit', day: '2-digit',
-        hour: '2-digit', minute: '2-digit', hour12: false
-    });
-
-    const parts = formatter.formatToParts(now);
-    const dateParts = {};
-    parts.forEach(({ type, value }) => { dateParts[type] = value; });
-
-    if (dateParts.hour === '24') dateParts.hour = '00';
-
-    const formattedTime = `${dateParts.year}-${dateParts.month}-${dateParts.day} ${dateParts.hour}:${dateParts.minute}`;
-    const datetimeElem = document.getElementById('w-datetime');
-    if (datetimeElem) datetimeElem.innerText = formattedTime;
-}
-
-setInterval(updateWeatherTime, 60000);
+var apikey = 'b2396b3dd79f47c3b5f41751262405';
+var defaultCity = "kolkata";
 
 async function fetchWeather(query) {
     try {
-        var response = await fetch(`https://api.weatherapi.com/v1/current.json?key=${apikey}&q=${query}`);
+        var response = await fetch("https://api.weatherapi.com/v1/current.json?key=" + apikey + "&q=" + query);
         var data = await response.json();
 
-        if (data.location && data.location.tz_id) {
-            weatherTimeZone = data.location.tz_id;
+        var cityEl = document.getElementById('w-city');
+        var tempEl = document.getElementById('w-temp');
+        if (cityEl) cityEl.innerText = data.location.name;
+        if (tempEl) {
+            if (canAnimate()) gsap.fromTo(tempEl, { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: 0.4 });
+            tempEl.innerText = data.current.temp_c + "°";
         }
-
-        document.getElementById('w-city').innerText = data.location.name;
-        updateWeatherTime();
-
-        const tempEl = document.getElementById('w-temp');
-        if (window.gsap) {
-            gsap.fromTo(tempEl, { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" });
-        }
-        tempEl.innerText = `${data.current.temp_c}°C`;
-        document.getElementById('w-condition').innerText = data.current.condition.text;
-        document.getElementById('w-precip').innerText = data.current.precip_mm;
-        document.getElementById('w-humidity').innerText = data.current.humidity;
-        document.getElementById('w-wind').innerText = data.current.wind_kph;
-    } catch (error) {
-        console.error("Error fetching weather:", error);
+        var condEl = document.getElementById('w-condition');
+        if (condEl) condEl.innerText = data.current.condition.text;
+    } catch (err) {
+        console.error("weather error", err);
     }
 }
 
 function initWeather() {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
-            (position) => {
-                fetchWeather(`${position.coords.latitude},${position.coords.longitude}`);
-            },
-            (error) => {
-                console.log("Geolocation access denied or failed. Using default city.");
-                fetchWeather(defaultCity);
-            }
+            function (pos) { fetchWeather(pos.coords.latitude + "," + pos.coords.longitude); },
+            function () { fetchWeather(defaultCity); }
         );
     } else {
         fetchWeather(defaultCity);
     }
 }
-
 initWeather();
 
-// --- end of weather widget ---
+// ---------------- stats ----------------
+
+function renderStats() {
+    var completedEl = document.getElementById('stat-completed');
+    var activeEl = document.getElementById('stat-active');
+    var rateEl = document.getElementById('stat-rate');
+    var chart = document.getElementById('barChart');
+    if (completedEl) completedEl.innerText = completedTotal;
+    if (activeEl) activeEl.innerText = tasks.length;
+    var total = completedTotal + tasks.length;
+    if (rateEl) rateEl.innerText = (total === 0 ? 0 : Math.round((completedTotal / total) * 100)) + '%';
+
+    if (chart) {
+        var days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+        var max = Math.max(1, Object.values(weekCompletions).reduce(function (a, b) { return Math.max(a, b); }, 1));
+        chart.innerHTML = '';
+        days.forEach(function (d) {
+            var val = weekCompletions[d] || 0;
+            var col = document.createElement('div');
+            col.className = 'bar-col';
+            var barHeight = Math.max(4, (val / max) * 100);
+            col.innerHTML = '<div class="bar" style="height:' + barHeight + '%"></div><span class="bar-day">' + d + '</span>';
+            chart.appendChild(col);
+        });
+    }
+}
+
+// ---------------- settings ----------------
+
+var darkToggle = document.getElementById('darkToggle');
+var motionToggle = document.getElementById('motionToggle');
+
+var savedTheme = localStorage.getItem('planora_theme') || 'light';
+document.documentElement.setAttribute('data-theme', savedTheme);
+if (darkToggle) darkToggle.checked = savedTheme === 'dark';
+if (motionToggle) motionToggle.checked = reduceMotion;
+
+if (darkToggle) {
+    darkToggle.addEventListener('change', function () {
+        var theme = darkToggle.checked ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem('planora_theme', theme);
+    });
+}
+if (motionToggle) {
+    motionToggle.addEventListener('change', function () {
+        reduceMotion = motionToggle.checked;
+        localStorage.setItem('planora_reduceMotion', reduceMotion ? '1' : '0');
+    });
+}
+
+// ---------------- entrance ----------------
+
+window.addEventListener('load', function () {
+    if (canAnimate()) {
+        var cards = document.querySelectorAll('#view-today .card');
+        gsap.fromTo(cards, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.55, ease: "power3.out", stagger: 0.08 });
+        var navBtns = document.querySelectorAll('.nav-item');
+        gsap.fromTo(navBtns, { opacity: 0, x: -10 }, { opacity: 1, x: 0, duration: 0.4, stagger: 0.04 });
+    }
+});
