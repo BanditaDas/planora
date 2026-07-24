@@ -5,43 +5,80 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>planora</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.9.0/fonts/remixicon.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 </head>
 
 <body>
+
+    <div class="blob" id="blob"></div>
+    <div class="grain"></div>
+
     <div id="main">
 
+        <header class="topbar">
+            <div class="brand">
+                <span class="brand-mark">planora</span>
+                <span class="brand-tag">your day, pinned up ✦</span>
+            </div>
+            <div class="topbar-clock" id="live-clock">--:--</div>
+        </header>
+
         <section class="allelm">
-            <div class="todo elem" id="0">
+            <div class="todo elem" id="0" data-rot="-3">
+                <span class="tape"></span>
+                <span class="pin"></span>
                 <img src="https://i.pinimg.com/736x/99/bc/89/99bc892a5f873db3fb5808ef70fc7e54.jpg" alt="">
+                <div class="elem-overlay"></div>
+                <span class="eyebrow">get it done</span>
                 <h2>Todo list</h2>
+                <i class="ri-arrow-right-up-line card-arrow"></i>
             </div>
-            <div class="daily elem" id="1">
+            <div class="daily elem" id="1" data-rot="2">
+                <span class="tape"></span>
+                <span class="pin"></span>
                 <img src="https://i.pinimg.com/1200x/60/8b/87/608b877b76cf4fa3f994f5716607d42c.jpg" alt="">
+                <div class="elem-overlay"></div>
+                <span class="eyebrow">hour by hour</span>
                 <h2>Daily planner</h2>
+                <i class="ri-arrow-right-up-line card-arrow"></i>
             </div>
-            <div class="pomo elem" id="2">
+            <div class="pomo elem" id="2" data-rot="-2">
+                <span class="tape"></span>
+                <span class="pin"></span>
                 <img src="https://i.pinimg.com/736x/dc/fb/e5/dcfbe56a97aca74128d9f75656ec9411.jpg" alt="">
+                <div class="elem-overlay"></div>
+                <span class="eyebrow">lock in</span>
                 <h2>Pomodoro</h2>
+                <i class="ri-arrow-right-up-line card-arrow"></i>
             </div>
-            <div class="moto elem" id="3">
+            <div class="moto elem" id="3" data-rot="3">
+                <span class="tape"></span>
+                <span class="pin"></span>
                 <img src="https://i.pinimg.com/1200x/ee/24/47/ee2447fbdffd8a35788f3f7f86d297aa.jpg" alt="">
+                <div class="elem-overlay"></div>
+                <span class="eyebrow">daily dose</span>
                 <h2>Motivation</h2>
+                <i class="ri-arrow-right-up-line card-arrow"></i>
             </div>
-            <div class="goals elem">
+            <div class="goals elem" data-rot="1">
+                <span class="tape"></span>
                 <img src="https://i.pinimg.com/736x/73/6b/1f/736b1f1bef48e1b31808b4ab8973269a.jpg" alt="">
-                <h1>Weather 🌤️</h1>
+                <span class="eyebrow">right now</span>
+                <h1>Weather</h1>
                 <div class="weather-card">
                     <div class="weather-main">
                         <h1 id="w-temp">--°C</h1>
                         <p id="w-condition">--</p>
                     </div>
                     <div class="w-details weather-details">
-                        <p>Precipitation: <span id="w-precip">--</span> mm</p>
-                        <p>Humidity: <span id="w-humidity">--</span>%</p>
-                        <p>Wind: <span id="w-wind">--</span> km/h</p>
+                        <p>Precip <span id="w-precip">--</span> mm</p>
+                        <p>Humidity <span id="w-humidity">--</span>%</p>
+                        <p>Wind <span id="w-wind">--</span> km/h</p>
                     </div>
                     <div class="weather-bottom">
                         <h2 id="w-city">Loading...</h2>
@@ -52,62 +89,50 @@
         </section>
 
         <section class="fullelem todo-fullpg">
-            <button class="back" id="0">
-                <i class="ri-close-line"></i></button>
-            <h1>Today’s Tasks 💗</h1>
+            <button class="back" id="0"><i class="ri-close-line"></i></button>
+            <span class="page-eyebrow">get it done</span>
+            <h1>Today's tasks <span class="deco">💗</span></h1>
             <div class="todo-container">
                 <div class="addTask">
+                    <h3>Add task</h3>
                     <form>
-                        <h3>Add Task</h3>
-                        <input type="text" placeholder="Add a new task...">
-                        <textarea placeholder="Enter details" name="" id=""></textarea>
+                        <input type="text" placeholder="What needs doing?">
+                        <textarea placeholder="Any details? (optional)" name="" id=""></textarea>
                         <div class="important-container">
                             <input type="checkbox" id="check" name="important">
-                            <label for="mark-important">Star as Important</label>
+                            <label for="mark-important">Star as important</label>
                         </div>
-                        <button type="submit">Add</button>
+                        <button type="submit"><i class="ri-add-line"></i> Add task</button>
                     </form>
                 </div>
                 <div class="alltask">
                     <div class="task">
                         <div class="task-details">
-                            <h5>Complete React project </h5>
+                            <h5>Complete React project</h5>
                             <p>Finish todo functionality and styling</p>
                         </div>
-                        <button>complete </button>
+                        <button>complete</button>
                     </div>
-
                 </div>
             </div>
         </section>
 
         <section class="fullelem daily-fullpg">
-            <button class="back" id="1">
-                <i class="ri-close-line"></i></button>
-            <h1>Plan your day 🦋</h1>
-
-            <div class="day-planner">
-                <!-- <div class="day-plan-time">
-                        <p>5:00 AM</p>
-                        <input type="text" placeholder=" ">
-                    </div> -->
-
-            </div>
-
+            <button class="back" id="1"><i class="ri-close-line"></i></button>
+            <span class="page-eyebrow">hour by hour</span>
+            <h1>Plan your day <span class="deco">🦋</span></h1>
+            <div class="day-planner"></div>
         </section>
 
         <section class="fullelem pomo-fullpg">
-            <button class="back" id="2">
-                <i class="ri-close-line"></i></button>
-            <h1>Stay Locked In 🦉</h1>
+            <button class="back" id="2"><i class="ri-close-line"></i></button>
+            <span class="page-eyebrow">lock in</span>
+            <h1>Stay locked in <span class="deco">🦉</span></h1>
             <div class="pomo-timer">
                 <div class="timer-card">
-
                     <div class="timer-top">
                         <span class="timer-label"></span>
-                        <div class="session-count">
-                            🍅 <span id="session">1</span>
-                        </div>
+                        <div class="session-count">🍅 <span id="session">1</span></div>
                     </div>
 
                     <div class="timer-circle">
@@ -115,45 +140,34 @@
                             <circle cx="120" cy="120" r="105"></circle>
                             <circle cx="120" cy="120" r="105" id="progress"></circle>
                         </svg>
-
                         <div class="timer-text">
                             <h2 id="time">25:00</h2>
-                            <p id="status">Focus Mode</p>
+                            <p id="status">Focus mode</p>
                         </div>
                     </div>
 
                     <div class="timer-btns">
-                        <button id="start">Start</button>
-                        <button id="pause">Pause</button>
-                        <button id="reset">Reset</button>
+                        <button id="start"><i class="ri-play-fill"></i> Start</button>
+                        <button id="pause"><i class="ri-pause-fill"></i> Pause</button>
+                        <button id="reset"><i class="ri-restart-line"></i> Reset</button>
                     </div>
-
                 </div>
             </div>
         </section>
 
         <section class="fullelem moto-fullpg">
-            <button class="back" id="3">
-                <i class="ri-close-line"></i></button>
-            <h1>Quote of the day ✨</h1>
+            <button class="back" id="3"><i class="ri-close-line"></i></button>
             <div class="quote-card">
-
-                <p class="quote" id="quote">
-                    Loading your daily motivation...
-                </p>
-
-                <h3 class="author" id="author">
-                    — Unknown
-                </h3>
-
-                <button class="new-quote" id="newQuoteBtn">
-                    New Quote
-                </button>
+                <span class="page-eyebrow light">daily dose</span>
+                <p class="quote" id="quote">Loading your daily motivation...</p>
+                <h3 class="author" id="author">— Unknown</h3>
+                <button class="new-quote" id="newQuoteBtn"><i class="ri-refresh-line"></i> New quote</button>
             </div>
         </section>
-        
+
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="script.js"></script>
 </body>
 
