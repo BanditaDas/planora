@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 
 <head>
     <meta charset="UTF-8">
@@ -7,164 +7,221 @@
     <title>planora</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=Caveat:wght@500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.9.0/fonts/remixicon.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 </head>
 
 <body>
+    <div id="app">
 
-    <div class="blob" id="blob"></div>
-    <div class="grain"></div>
-
-    <div id="main">
-
-        <header class="topbar">
+        <aside class="sidebar">
             <div class="brand">
-                <span class="brand-mark">planora</span>
-                <span class="brand-tag">your day, pinned up ✦</span>
+                <span class="brand-dot"></span>
+                <span class="brand-name">planora</span>
             </div>
-            <div class="topbar-clock" id="live-clock">--:--</div>
-        </header>
 
-        <section class="allelm">
-            <div class="todo elem" id="0" data-rot="-3">
-                <span class="tape"></span>
-                <span class="pin"></span>
-                <img src="https://i.pinimg.com/736x/99/bc/89/99bc892a5f873db3fb5808ef70fc7e54.jpg" alt="">
-                <div class="elem-overlay"></div>
-                <span class="eyebrow">get it done</span>
-                <h2>Todo list</h2>
-                <i class="ri-arrow-right-up-line card-arrow"></i>
-            </div>
-            <div class="daily elem" id="1" data-rot="2">
-                <span class="tape"></span>
-                <span class="pin"></span>
-                <img src="https://i.pinimg.com/1200x/60/8b/87/608b877b76cf4fa3f994f5716607d42c.jpg" alt="">
-                <div class="elem-overlay"></div>
-                <span class="eyebrow">hour by hour</span>
-                <h2>Daily planner</h2>
-                <i class="ri-arrow-right-up-line card-arrow"></i>
-            </div>
-            <div class="pomo elem" id="2" data-rot="-2">
-                <span class="tape"></span>
-                <span class="pin"></span>
-                <img src="https://i.pinimg.com/736x/dc/fb/e5/dcfbe56a97aca74128d9f75656ec9411.jpg" alt="">
-                <div class="elem-overlay"></div>
-                <span class="eyebrow">lock in</span>
-                <h2>Pomodoro</h2>
-                <i class="ri-arrow-right-up-line card-arrow"></i>
-            </div>
-            <div class="moto elem" id="3" data-rot="3">
-                <span class="tape"></span>
-                <span class="pin"></span>
-                <img src="https://i.pinimg.com/1200x/ee/24/47/ee2447fbdffd8a35788f3f7f86d297aa.jpg" alt="">
-                <div class="elem-overlay"></div>
-                <span class="eyebrow">daily dose</span>
-                <h2>Motivation</h2>
-                <i class="ri-arrow-right-up-line card-arrow"></i>
-            </div>
-            <div class="goals elem" data-rot="1">
-                <span class="tape"></span>
-                <img src="https://i.pinimg.com/736x/73/6b/1f/736b1f1bef48e1b31808b4ab8973269a.jpg" alt="">
-                <span class="eyebrow">right now</span>
-                <h1>Weather</h1>
-                <div class="weather-card">
-                    <div class="weather-main">
-                        <h1 id="w-temp">--°C</h1>
-                        <p id="w-condition">--</p>
+            <nav class="nav">
+                <div class="nav-indicator" id="nav-indicator"></div>
+                <button class="nav-item active" data-view="today"><i class="ri-sun-line"></i><span>Today</span></button>
+                <button class="nav-item" data-view="inbox"><i class="ri-inbox-line"></i><span>Inbox</span></button>
+                <button class="nav-item" data-view="upcoming"><i class="ri-time-line"></i><span>Upcoming</span></button>
+                <button class="nav-item" data-view="calendar"><i class="ri-calendar-line"></i><span>Calendar</span></button>
+                <button class="nav-item" data-view="notes"><i class="ri-sticky-note-line"></i><span>Notes</span></button>
+                <button class="nav-item" data-view="stats"><i class="ri-bar-chart-line"></i><span>Stats</span></button>
+            </nav>
+
+            <button class="nav-item settings-item" data-view="settings"><i class="ri-settings-3-line"></i><span>Settings</span></button>
+        </aside>
+
+        <main class="content">
+
+            <header class="content-header">
+                <h1 id="view-title">Today</h1>
+                <div class="streak-badge"><i class="ri-fire-line"></i> <span id="streak-count">0</span> day streak</div>
+            </header>
+
+            <!-- TODAY -->
+            <section class="view active" id="view-today">
+
+                <div class="stat-row">
+                    <div class="card weather-card">
+                        <span class="card-label"><i class="ri-cloud-line"></i> Weather</span>
+                        <div class="weather-main">
+                            <h2 id="w-temp">--°</h2>
+                            <p id="w-condition">--</p>
+                        </div>
+                        <p class="weather-sub"><span id="w-city">Loading...</span></p>
                     </div>
-                    <div class="w-details weather-details">
-                        <p>Precip <span id="w-precip">--</span> mm</p>
-                        <p>Humidity <span id="w-humidity">--</span>%</p>
-                        <p>Wind <span id="w-wind">--</span> km/h</p>
+
+                    <div class="card clock-card">
+                        <span class="card-label"><i class="ri-time-line"></i> Clock</span>
+                        <h2 id="live-clock">--:--</h2>
+                        <p class="clock-sub" id="live-date">--</p>
                     </div>
-                    <div class="weather-bottom">
-                        <h2 id="w-city">Loading...</h2>
-                        <h3 id="w-datetime">--</h3>
+
+                    <div class="card ring-card">
+                        <span class="card-label"><i class="ri-focus-3-line"></i> Progress</span>
+                        <div class="ring-wrap">
+                            <svg viewBox="0 0 120 120">
+                                <circle cx="60" cy="60" r="50" class="ring-track"></circle>
+                                <circle cx="60" cy="60" r="50" class="ring-fill" id="progress-ring"></circle>
+                            </svg>
+                            <div class="ring-text"><span id="ring-percent">0%</span></div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </section>
 
-        <section class="fullelem todo-fullpg">
-            <button class="back" id="0"><i class="ri-close-line"></i></button>
-            <span class="page-eyebrow">get it done</span>
-            <h1>Today's tasks <span class="deco">💗</span></h1>
-            <div class="todo-container">
-                <div class="addTask">
-                    <h3>Add task</h3>
-                    <form>
-                        <input type="text" placeholder="What needs doing?">
-                        <textarea placeholder="Any details? (optional)" name="" id=""></textarea>
-                        <div class="important-container">
-                            <input type="checkbox" id="check" name="important">
-                            <label for="mark-important">Star as important</label>
-                        </div>
-                        <button type="submit"><i class="ri-add-line"></i> Add task</button>
+                <div class="card tasks-card">
+                    <div class="tasks-card-header">
+                        <span class="card-label"><i class="ri-checkbox-circle-line"></i> Today's tasks</span>
+                        <span class="tasks-count" id="tasks-count">0 left</span>
+                    </div>
+
+                    <form id="addTaskForm" class="add-task-row">
+                        <input type="text" id="taskInput" placeholder="Add a task and hit enter...">
+                        <label class="important-toggle">
+                            <input type="checkbox" id="taskImportant">
+                            <i class="ri-star-line"></i>
+                        </label>
+                        <button type="submit"><i class="ri-add-line"></i></button>
                     </form>
+
+                    <div class="alltask" id="taskList"></div>
                 </div>
-                <div class="alltask">
-                    <div class="task">
-                        <div class="task-details">
-                            <h5>Complete React project</h5>
-                            <p>Finish todo functionality and styling</p>
-                        </div>
-                        <button>complete</button>
-                    </div>
-                </div>
-            </div>
-        </section>
 
-        <section class="fullelem daily-fullpg">
-            <button class="back" id="1"><i class="ri-close-line"></i></button>
-            <span class="page-eyebrow">hour by hour</span>
-            <h1>Plan your day <span class="deco">🦋</span></h1>
-            <div class="day-planner"></div>
-        </section>
-
-        <section class="fullelem pomo-fullpg">
-            <button class="back" id="2"><i class="ri-close-line"></i></button>
-            <span class="page-eyebrow">lock in</span>
-            <h1>Stay locked in <span class="deco">🦉</span></h1>
-            <div class="pomo-timer">
-                <div class="timer-card">
-                    <div class="timer-top">
-                        <span class="timer-label"></span>
-                        <div class="session-count">🍅 <span id="session">1</span></div>
-                    </div>
-
-                    <div class="timer-circle">
-                        <svg>
-                            <circle cx="120" cy="120" r="105"></circle>
-                            <circle cx="120" cy="120" r="105" id="progress"></circle>
-                        </svg>
-                        <div class="timer-text">
-                            <h2 id="time">25:00</h2>
-                            <p id="status">Focus mode</p>
+                <div class="bottom-row">
+                    <div class="card pomodoro-card">
+                        <span class="card-label"><i class="ri-timer-line"></i> Pomodoro</span>
+                        <div class="pomo-body">
+                            <div class="timer-circle">
+                                <svg>
+                                    <circle cx="70" cy="70" r="60"></circle>
+                                    <circle cx="70" cy="70" r="60" id="pomo-progress"></circle>
+                                </svg>
+                                <div class="timer-text">
+                                    <h3 id="time">25:00</h3>
+                                    <p id="status">Focus</p>
+                                </div>
+                            </div>
+                            <div class="pomo-side">
+                                <div class="session-count"><i class="ri-checkbox-blank-circle-fill"></i> Session <span id="session">1</span></div>
+                                <div class="mode-btns">
+                                    <button id="mode25" class="mode-active">25 min</button>
+                                    <button id="mode50">50 min</button>
+                                </div>
+                                <div class="timer-btns">
+                                    <button id="start"><i class="ri-play-fill"></i></button>
+                                    <button id="pause"><i class="ri-pause-fill"></i></button>
+                                    <button id="reset"><i class="ri-restart-line"></i></button>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="timer-btns">
-                        <button id="start"><i class="ri-play-fill"></i> Start</button>
-                        <button id="pause"><i class="ri-pause-fill"></i> Pause</button>
-                        <button id="reset"><i class="ri-restart-line"></i> Reset</button>
+                    <div class="card notes-widget-card">
+                        <span class="card-label"><i class="ri-sticky-note-line"></i> Notes widget</span>
+                        <textarea id="notesWidget" placeholder="Jot something down..."></textarea>
+                        <button class="open-notes-btn" data-view="notes">Open full notes <i class="ri-arrow-right-up-line"></i></button>
                     </div>
                 </div>
-            </div>
-        </section>
 
-        <section class="fullelem moto-fullpg">
-            <button class="back" id="3"><i class="ri-close-line"></i></button>
-            <div class="quote-card">
-                <span class="page-eyebrow light">daily dose</span>
-                <p class="quote" id="quote">Loading your daily motivation...</p>
-                <h3 class="author" id="author">— Unknown</h3>
-                <button class="new-quote" id="newQuoteBtn"><i class="ri-refresh-line"></i> New quote</button>
-            </div>
-        </section>
+            </section>
 
+            <!-- INBOX -->
+            <section class="view" id="view-inbox">
+                <div class="card">
+                    <div class="tasks-card-header">
+                        <span class="card-label"><i class="ri-inbox-line"></i> Quick capture</span>
+                    </div>
+                    <form id="addInboxForm" class="add-task-row">
+                        <input type="text" id="inboxInput" placeholder="Drop a thought before it disappears...">
+                        <button type="submit"><i class="ri-add-line"></i></button>
+                    </form>
+                    <div class="alltask" id="inboxList"></div>
+                </div>
+            </section>
+
+            <!-- UPCOMING -->
+            <section class="view" id="view-upcoming">
+                <div class="card empty-state">
+                    <i class="ri-calendar-check-line"></i>
+                    <h3>Nothing scheduled yet</h3>
+                    <p>Tasks with a due date will line up here.</p>
+                </div>
+            </section>
+
+            <!-- CALENDAR / day planner -->
+            <section class="view" id="view-calendar">
+                <div class="card">
+                    <span class="card-label"><i class="ri-calendar-line"></i> Plan your day</span>
+                    <div class="day-planner" id="dayPlanner"></div>
+                </div>
+            </section>
+
+            <!-- NOTES -->
+            <section class="view" id="view-notes">
+                <div class="card quote-card">
+                    <span class="card-label"><i class="ri-sparkling-2-line"></i> Daily dose</span>
+                    <p class="quote" id="quote">Loading your daily motivation...</p>
+                    <h3 class="author" id="author">— Unknown</h3>
+                    <button class="new-quote" id="newQuoteBtn"><i class="ri-refresh-line"></i> New quote</button>
+                </div>
+                <div class="card">
+                    <span class="card-label"><i class="ri-sticky-note-line"></i> Notes</span>
+                    <textarea id="notesFull" class="notes-full" placeholder="Write freely..."></textarea>
+                </div>
+            </section>
+
+            <!-- STATS -->
+            <section class="view" id="view-stats">
+                <div class="stat-row three">
+                    <div class="card metric-card">
+                        <span class="card-label">Completed</span>
+                        <h2 id="stat-completed">0</h2>
+                    </div>
+                    <div class="card metric-card">
+                        <span class="card-label">Active</span>
+                        <h2 id="stat-active">0</h2>
+                    </div>
+                    <div class="card metric-card">
+                        <span class="card-label">Completion rate</span>
+                        <h2 id="stat-rate">0%</h2>
+                    </div>
+                </div>
+                <div class="card">
+                    <span class="card-label"><i class="ri-bar-chart-line"></i> This week</span>
+                    <div class="bar-chart" id="barChart"></div>
+                </div>
+            </section>
+
+            <!-- SETTINGS -->
+            <section class="view" id="view-settings">
+                <div class="card settings-card">
+                    <div class="setting-row">
+                        <div>
+                            <h3>Dark mode</h3>
+                            <p>Switch the whole workspace to a dark palette.</p>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="darkToggle">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-row">
+                        <div>
+                            <h3>Reduce motion</h3>
+                            <p>Turn off entrance and hover animations.</p>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="motionToggle">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+        </main>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
