@@ -1,18 +1,18 @@
 :root {
-  --sidebar-bg: #171123;
-  --sidebar-text: #b7aecb;
-  --sidebar-text-active: #ffffff;
-  --page-bg: #f5f4fb;
+  --sidebar-bg: #2F3A2E;
+  --sidebar-text: #A7C4A0;
+  --sidebar-text-active: #F6F7F2;
+  --page-bg: #F6F7F2;
   --surface: #ffffff;
-  --surface-2: #efedf9;
-  --text-primary: #1c1530;
-  --text-secondary: #6b6280;
-  --text-muted: #9a92ab;
-  --border: rgba(28, 21, 48, 0.08);
-  --accent: #7c5cfc;
-  --accent-dark: #6440f0;
-  --coral: #ff6b4a;
-  --lime: #c6ff3d;
+  --surface-2: #F6F7F2;
+  --text-primary: #2F3A2E;
+  --text-secondary: #6B8F71;
+  --text-muted: #A7C4A0;
+  --border: #DDE5D8;
+  --accent: #6B8F71;
+  --accent-dark: #5A7A60;
+  --coral: #A7C4A0;
+  --lime: #A7C4A0;
   --shadow: 0 10px 26px rgba(28, 21, 48, 0.08);
   --shadow-hover: 0 16px 34px rgba(28, 21, 48, 0.14);
   --radius: 16px;
@@ -51,7 +51,6 @@ html, body { height: 100%; width: 100%; background: var(--page-bg); }
 .brand { display: flex; align-items: center; gap: 8px; padding: 0 0.5rem; margin-bottom: 2rem; }
 .brand-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--lime); box-shadow: 0 0 10px var(--lime); }
 .brand-name { font-family: "Space Grotesk", sans-serif; font-weight: 700; font-size: 1.15rem; color: #fff; }
-
 .nav { position: relative; display: flex; flex-direction: column; gap: 2px; }
 
 .nav-indicator {
