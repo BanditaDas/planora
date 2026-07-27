@@ -36,6 +36,7 @@
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Inter", sans-serif; color: var(--text-primary); }
+i, span { color: inherit; }
 h1, h2, h3 { font-family: "Space Grotesk", sans-serif; font-weight: 600; letter-spacing: -0.02em; }
 button { font-family: inherit; cursor: pointer; }
 
