@@ -1,31 +1,36 @@
 :root {
-  --sidebar-bg: #2F3A2E;
-  --sidebar-text: #A7C4A0;
-  --sidebar-text-active: #F6F7F2;
+  --sidebar-bg: #2A3427;
+  --sidebar-text: #AEBDA7;
+  --sidebar-text-active: #ffffff;
   --page-bg: #F6F7F2;
-  --surface: #ffffff;
-  --surface-2: #F6F7F2;
+  --surface: #FFFFFF;
+  --surface-2: #EEF2E9;
   --text-primary: #2F3A2E;
-  --text-secondary: #6B8F71;
-  --text-muted: #A7C4A0;
+  --text-secondary: #5C6B58;
+  --text-muted: #8A9683;
   --border: #DDE5D8;
   --accent: #6B8F71;
-  --accent-dark: #5A7A60;
-  --coral: #A7C4A0;
+  --accent-dark: #56744C;
+  --coral: #C98A54;
   --lime: #A7C4A0;
-  --shadow: 0 10px 26px rgba(28, 21, 48, 0.08);
-  --shadow-hover: 0 16px 34px rgba(28, 21, 48, 0.14);
+  --shadow: 0 10px 26px rgba(47, 58, 46, 0.08);
+  --shadow-hover: 0 16px 34px rgba(47, 58, 46, 0.14);
   --radius: 16px;
 }
 
 [data-theme="dark"] {
-  --page-bg: #14101f;
-  --surface: #1e1830;
-  --surface-2: #251d3b;
-  --text-primary: #f1eefa;
-  --text-secondary: #b0a7c4;
-  --text-muted: #837a99;
-  --border: rgba(255, 255, 255, 0.08);
+  --sidebar-bg: #161C14;
+  --page-bg: #1B211A;
+  --surface: #232B21;
+  --surface-2: #2B3428;
+  --text-primary: #E8ECE3;
+  --text-secondary: #AEBDA7;
+  --text-muted: #7E8B78;
+  --border: rgba(167, 196, 160, 0.14);
+  --accent: #8FB495;
+  --accent-dark: #6B8F71;
+  --coral: #D99A63;
+  --lime: #A7C4A0;
   --shadow: 0 10px 26px rgba(0, 0, 0, 0.35);
   --shadow-hover: 0 16px 34px rgba(0, 0, 0, 0.45);
 }
@@ -51,6 +56,7 @@ html, body { height: 100%; width: 100%; background: var(--page-bg); }
 .brand { display: flex; align-items: center; gap: 8px; padding: 0 0.5rem; margin-bottom: 2rem; }
 .brand-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--lime); box-shadow: 0 0 10px var(--lime); }
 .brand-name { font-family: "Space Grotesk", sans-serif; font-weight: 700; font-size: 1.15rem; color: #fff; }
+
 .nav { position: relative; display: flex; flex-direction: column; gap: 2px; }
 
 .nav-indicator {
@@ -58,8 +64,8 @@ html, body { height: 100%; width: 100%; background: var(--page-bg); }
   left: 0;
   width: 100%;
   height: 40px;
-  background: rgba(124, 92, 252, 0.18);
-  border: 1px solid rgba(124, 92, 252, 0.35);
+  background: rgba(143, 180, 149, 0.2);
+  border: 1px solid rgba(143, 180, 149, 0.4);
   border-radius: 10px;
   z-index: 0;
   pointer-events: none;
