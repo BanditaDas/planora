@@ -357,7 +357,7 @@ function showCompletionMessage() {
     msgBox.innerText = "Pomodoro complete — take a break!";
     Object.assign(msgBox.style, {
         position: "fixed", top: "-100px", left: "50%", transform: "translateX(-50%)",
-        background: "#171123", color: "#fff", padding: "0.9rem 1.6rem", borderRadius: "100px",
+        background: "#2A3427", color: "#fff", padding: "0.9rem 1.6rem", borderRadius: "100px",
         fontWeight: "700", fontFamily: "'Space Grotesk', sans-serif", fontSize: "0.95rem",
         boxShadow: "0 14px 30px rgba(0,0,0,0.3)", zIndex: "9999"
     });
@@ -376,10 +376,10 @@ function triggerCrackers() {
     if (!window.confetti) {
         var script = document.createElement("script");
         script.src = "https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js";
-        script.onload = function () { window.confetti({ particleCount: 160, spread: 90, origin: { y: 0.6 }, colors: ['#7c5cfc', '#ff6b4a', '#c6ff3d'] }); };
+        script.onload = function () { window.confetti({ particleCount: 160, spread: 90, origin: { y: 0.6 }, colors: ['#6B8F71', '#C98A54', '#A7C4A0'] }); };
         document.head.appendChild(script);
     } else {
-        window.confetti({ particleCount: 160, spread: 90, origin: { y: 0.6 }, colors: ['#7c5cfc', '#ff6b4a', '#c6ff3d'] });
+        window.confetti({ particleCount: 160, spread: 90, origin: { y: 0.6 }, colors: ['#6B8F71', '#C98A54', '#A7C4A0'] });
     }
 }
 
