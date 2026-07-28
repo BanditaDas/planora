@@ -21,8 +21,8 @@
 [data-theme="dark"] {
   --sidebar-bg: #161C14;
   --page-bg: #1B211A;
-  --surface: #232B21;
-  --surface-2: #2B3428;
+  --surface: #2F3A2D;
+  --surface-2: #3A4637;
   --text-primary: #E8ECE3;
   --text-secondary: #AEBDA7;
   --text-muted: #7E8B78;
@@ -161,7 +161,7 @@ html, body { height: 100%; width: 100%; background: var(--page-bg); }
 .important-toggle { display: flex; align-items: center; justify-content: center; width: 40px; background: var(--surface-2); border-radius: 10px; cursor: pointer; }
 .important-toggle input { display: none; }
 .important-toggle i { font-size: 1.1rem; color: var(--text-muted); transition: color 0.2s ease, transform 0.2s ease; }
-.important-toggle input:checked + i { color: var(--accent); transform: scale(1.15); }
+.important-toggle input:checked + i { color: var(--coral); transform: scale(1.15); }
 .important-toggle input:checked + i::before { content: "\ed9a"; }
 
 .add-task-row button {
