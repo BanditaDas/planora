@@ -107,7 +107,7 @@ html, body { height: 100%; width: 100%; background: var(--page-bg); }
   padding: 6px 14px; border-radius: 100px; font-size: 0.85rem; font-weight: 600;
   box-shadow: var(--shadow);
 }
-.streak-badge i { color: var(--coral); }
+.streak-badge i { color: var(--accent); }
 
 .view { display: none; flex-direction: column; gap: 1.2rem; }
 .view.active { display: flex; }
@@ -161,7 +161,7 @@ html, body { height: 100%; width: 100%; background: var(--page-bg); }
 .important-toggle { display: flex; align-items: center; justify-content: center; width: 40px; background: var(--surface-2); border-radius: 10px; cursor: pointer; }
 .important-toggle input { display: none; }
 .important-toggle i { font-size: 1.1rem; color: var(--text-muted); transition: color 0.2s ease, transform 0.2s ease; }
-.important-toggle input:checked + i { color: var(--coral); transform: scale(1.15); }
+.important-toggle input:checked + i { color: var(--accent); transform: scale(1.15); }
 .important-toggle input:checked + i::before { content: "\ed9a"; }
 
 .add-task-row button {
@@ -202,14 +202,14 @@ html, body { height: 100%; width: 100%; background: var(--page-bg); }
 .timer-circle svg { width: 140px; height: 140px; transform: rotate(-90deg); }
 .timer-circle circle { fill: none; stroke-width: 8; stroke-linecap: round; }
 .timer-circle svg circle:first-child { stroke: var(--surface-2); }
-#pomo-progress { stroke: var(--coral); stroke-dasharray: 377; stroke-dashoffset: 0; transition: stroke-dashoffset 1s linear; }
+#pomo-progress { stroke: var(--accent); stroke-dasharray: 377; stroke-dashoffset: 0; transition: stroke-dashoffset 1s linear; }
 .timer-text { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
 .timer-text h3 { font-size: 1.5rem; }
 .timer-text p { font-size: 0.75rem; color: var(--text-muted); font-weight: 600; }
 
 .pomo-side { display: flex; flex-direction: column; gap: 0.7rem; flex: 1; }
 .session-count { font-size: 0.82rem; color: var(--text-secondary); font-weight: 600; display: flex; align-items: center; gap: 6px; }
-.session-count i { font-size: 8px; color: var(--coral); }
+.session-count i { font-size: 8px; color: var(--accent); }
 
 .mode-btns { display: flex; gap: 6px; }
 .mode-btns button { flex: 1; background: var(--surface-2); border: none; padding: 6px; border-radius: 8px; font-size: 0.75rem; font-weight: 600; color: var(--text-secondary); }
