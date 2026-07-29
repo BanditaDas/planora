@@ -122,7 +122,10 @@
                     <div class="card notes-widget-card">
                         <span class="card-label"><i class="ri-sticky-note-line"></i> Notes widget</span>
                         <textarea id="notesWidget" placeholder="Jot something down..."></textarea>
-                        <button class="open-notes-btn" data-view="notes">Open full notes <i class="ri-arrow-right-up-line"></i></button>
+                        <div class="notes-widget-actions">
+                            <button class="open-notes-btn" data-view="notes">View saved notes <i class="ri-arrow-right-up-line"></i></button>
+                            <button class="save-note-btn" id="saveNoteBtn"><i class="ri-save-3-line"></i> Save</button>
+                        </div>
                     </div>
                 </div>
 
@@ -173,8 +176,8 @@
                     <button class="new-quote" id="newQuoteBtn"><i class="ri-refresh-line"></i> New quote</button>
                 </div>
                 <div class="card">
-                    <span class="card-label"><i class="ri-sticky-note-line"></i> Notes</span>
-                    <textarea id="notesFull" class="notes-full" placeholder="Write freely..."></textarea>
+                    <span class="card-label"><i class="ri-sticky-note-line"></i> Saved notes</span>
+                    <div class="sticky-grid" id="stickyGrid"></div>
                 </div>
             </section>
 

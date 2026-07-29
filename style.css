@@ -16,6 +16,13 @@
   --shadow: 0 10px 26px rgba(47, 58, 46, 0.08);
   --shadow-hover: 0 16px 34px rgba(47, 58, 46, 0.14);
   --radius: 16px;
+  --sticky-1: #E3ECDD;
+  --sticky-2: #D2E2CB;
+  --sticky-3: #EAD9C3;
+  --sticky-4: #DCE8E2;
+  --sticky-5: #E8E0CE;
+  --sticky-6: #D9E2DE;
+  --sticky-text: #3A4636;
 }
 
 [data-theme="dark"] {
@@ -33,6 +40,13 @@
   --lime: #A7C4A0;
   --shadow: 0 10px 26px rgba(0, 0, 0, 0.35);
   --shadow-hover: 0 16px 34px rgba(0, 0, 0, 0.45);
+  --sticky-1: #3A4636;
+  --sticky-2: #333F2F;
+  --sticky-3: #46402F;
+  --sticky-4: #32403A;
+  --sticky-5: #403C2E;
+  --sticky-6: #303B37;
+  --sticky-text: #E6ECDF;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Inter", sans-serif; color: var(--text-primary); }
@@ -228,8 +242,16 @@ html, body { height: 100%; width: 100%; background: var(--page-bg); }
   flex: 1; min-height: 90px; resize: none; border: none; background: var(--surface-2);
   border-radius: 10px; padding: 0.7rem 0.9rem; margin: 0.7rem 0; font-size: 0.88rem; outline: none;
 }
-.open-notes-btn { align-self: flex-start; background: none; border: none; color: var(--accent); font-size: 0.82rem; font-weight: 600; display: flex; align-items: center; gap: 4px; }
+.notes-widget-actions { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.open-notes-btn { background: none; border: none; color: var(--accent); font-size: 0.82rem; font-weight: 600; display: flex; align-items: center; gap: 4px; }
 .open-notes-btn:hover { color: var(--accent-dark); }
+.save-note-btn {
+  border: none; background: var(--accent); color: #fff; padding: 0.5rem 1rem; border-radius: 8px;
+  font-size: 0.82rem; font-weight: 700; display: inline-flex; align-items: center; gap: 6px;
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+.save-note-btn:hover { background: var(--accent-dark); }
+.save-note-btn:active { transform: scale(0.95); }
 
 .task.done-task { opacity: 0.7; }
 .task.done-task .task-details h5 { text-decoration: line-through; color: var(--text-muted); }
@@ -263,6 +285,63 @@ html, body { height: 100%; width: 100%; background: var(--page-bg); }
 }
 .new-quote:hover { background: var(--accent-dark); transform: translateY(-2px); }
 .notes-full { width: 100%; min-height: 220px; margin-top: 0.8rem; resize: vertical; border: 1px solid var(--border); background: var(--surface-2); border-radius: 10px; padding: 1rem; font-size: 0.92rem; outline: none; }
+
+/* sticky notes gallery */
+.sticky-grid {
+  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 1.1rem;
+}
+
+.sticky-note {
+  position: relative;
+  padding: 0.9rem 0.9rem 1.6rem;
+  border-radius: 4px;
+  min-height: 120px;
+  font-size: 0.86rem;
+  line-height: 1.45;
+  word-break: break-word;
+  white-space: pre-wrap;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  color: var(--sticky-text);
+}
+
+.sticky-note:hover { transform: translateY(-4px) rotate(0deg) !important; box-shadow: 0 14px 24px rgba(0, 0, 0, 0.18); z-index: 2; }
+
+.sticky-note:nth-child(6n+1) { background: var(--sticky-1); transform: rotate(-2deg); }
+.sticky-note:nth-child(6n+2) { background: var(--sticky-2); transform: rotate(1.5deg); }
+.sticky-note:nth-child(6n+3) { background: var(--sticky-3); transform: rotate(-1deg); }
+.sticky-note:nth-child(6n+4) { background: var(--sticky-4); transform: rotate(2deg); }
+.sticky-note:nth-child(6n+5) { background: var(--sticky-5); transform: rotate(-1.5deg); }
+.sticky-note:nth-child(6n+6) { background: var(--sticky-6); transform: rotate(1deg); }
+
+.sticky-note .sticky-time {
+  position: absolute;
+  bottom: 0.6rem;
+  left: 0.9rem;
+  font-size: 0.68rem;
+  color: inherit;
+  opacity: 0.6;
+  font-weight: 600;
+}
+
+.sticky-note .sticky-remove {
+  position: absolute;
+  top: 0.4rem;
+  right: 0.5rem;
+  background: none;
+  border: none;
+  color: inherit;
+  opacity: 0;
+  font-size: 0.95rem;
+  transition: opacity 0.2s ease;
+}
+.sticky-note:hover .sticky-remove { opacity: 0.55; }
+.sticky-note .sticky-remove:hover { opacity: 1; }
+
+.sticky-empty { color: var(--text-muted); font-size: 0.88rem; margin-top: 1rem; }
 
 /* ---------- stats ---------- */
 .metric-card h2 { font-size: 2rem; margin-top: 0.3rem; }

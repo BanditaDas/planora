@@ -348,23 +348,81 @@ if (plannerEl) {
     });
 }
 
-// ---------------- notes (widget + full, synced) ----------------
+// ---------------- sticky notes ----------------
 
 var notesWidget = document.getElementById('notesWidget');
-var notesFull = document.getElementById('notesFull');
-var savedNotes = localStorage.getItem('planora_notes') || '';
+var saveNoteBtn = document.getElementById('saveNoteBtn');
+var stickyGrid = document.getElementById('stickyGrid');
 
-if (notesWidget) notesWidget.value = savedNotes;
-if (notesFull) notesFull.value = savedNotes;
+var stickyNotes = JSON.parse(localStorage.getItem('planora_stickyNotes') || '[]');
+var notesDraft = localStorage.getItem('planora_notesDraft') || '';
+if (notesWidget) notesWidget.value = notesDraft;
 
-function syncNotes(value) {
-    localStorage.setItem('planora_notes', value);
-    if (notesWidget && notesWidget.value !== value) notesWidget.value = value;
-    if (notesFull && notesFull.value !== value) notesFull.value = value;
+if (notesWidget) {
+    notesWidget.addEventListener('input', function () {
+        localStorage.setItem('planora_notesDraft', notesWidget.value);
+    });
 }
 
-if (notesWidget) notesWidget.addEventListener('input', function () { syncNotes(notesWidget.value); });
-if (notesFull) notesFull.addEventListener('input', function () { syncNotes(notesFull.value); });
+function renderStickyNotes() {
+    if (!stickyGrid) return;
+    if (stickyNotes.length === 0) {
+        stickyGrid.innerHTML = '<p class="sticky-empty">No notes saved yet — jot one on the Today dashboard.</p>';
+        return;
+    }
+    stickyGrid.innerHTML = '';
+    stickyNotes.slice().reverse().forEach(function (note, revI) {
+        var i = stickyNotes.length - 1 - revI;
+        var time = new Date(note.ts).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+        var el = document.createElement('div');
+        el.className = 'sticky-note';
+        el.innerHTML =
+            '<button class="sticky-remove" data-i="' + i + '"><i class="ri-close-line"></i></button>' +
+            '<div class="sticky-text"></div>' +
+            '<span class="sticky-time">' + time + '</span>';
+        el.querySelector('.sticky-text').innerText = note.text;
+        stickyGrid.appendChild(el);
+    });
+
+    stickyGrid.querySelectorAll('.sticky-remove').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            var idx = parseInt(btn.getAttribute('data-i'), 10);
+            var card = btn.closest('.sticky-note');
+            var finish = function () {
+                stickyNotes.splice(idx, 1);
+                localStorage.setItem('planora_stickyNotes', JSON.stringify(stickyNotes));
+                renderStickyNotes();
+            };
+            if (canAnimate() && card) {
+                gsap.to(card, { opacity: 0, scale: 0.85, duration: 0.2, ease: "power2.in", onComplete: finish });
+            } else {
+                finish();
+            }
+        });
+    });
+
+    if (canAnimate()) {
+        gsap.fromTo(stickyGrid.querySelectorAll('.sticky-note'), { opacity: 0, y: 10, scale: 0.95 }, { opacity: 1, y: 0, scale: 1, duration: 0.35, stagger: 0.04, ease: "power2.out" });
+    }
+}
+renderStickyNotes();
+
+function saveNote() {
+    if (!notesWidget || !notesWidget.value.trim()) return;
+    stickyNotes.push({ text: notesWidget.value.trim(), ts: Date.now() });
+    localStorage.setItem('planora_stickyNotes', JSON.stringify(stickyNotes));
+
+    notesWidget.value = '';
+    localStorage.setItem('planora_notesDraft', '');
+    renderStickyNotes();
+
+    if (canAnimate() && saveNoteBtn) {
+        gsap.fromTo(saveNoteBtn, { scale: 1 }, { scale: 1.12, duration: 0.14, yoyo: true, repeat: 1, ease: "power1.inOut" });
+    }
+}
+if (saveNoteBtn) saveNoteBtn.addEventListener('click', saveNote);
+
+// ---------------- end of sticky notes ----------------
 
 // ---------------- quote generator ----------------
 
