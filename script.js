@@ -112,6 +112,17 @@ var tasks = JSON.parse(localStorage.getItem('planora_tasks') || '[]');
 var completedTotal = parseInt(localStorage.getItem('planora_completedTotal') || '0', 10);
 var weekCompletions = JSON.parse(localStorage.getItem('planora_weekCompletions') || '{}');
 
+var completedToday = (function () {
+    var today = new Date().toDateString();
+    var storedDate = localStorage.getItem('planora_completedDate');
+    if (storedDate !== today) {
+        localStorage.setItem('planora_completedDate', today);
+        localStorage.setItem('planora_completedToday', '0');
+        return 0;
+    }
+    return parseInt(localStorage.getItem('planora_completedToday') || '0', 10);
+})();
+
 function saveTasks() { localStorage.setItem('planora_tasks', JSON.stringify(tasks)); }
 
 function renderTasks() {
@@ -145,6 +156,9 @@ function completeTask(i) {
         saveTasks();
         completedTotal += 1;
         localStorage.setItem('planora_completedTotal', completedTotal);
+
+        completedToday += 1;
+        localStorage.setItem('planora_completedToday', completedToday);
 
         var day = new Date().toLocaleDateString(undefined, { weekday: 'short' });
         weekCompletions[day] = (weekCompletions[day] || 0) + 1;
@@ -181,8 +195,8 @@ function updateProgressRing() {
     var ring = document.getElementById('progress-ring');
     var percentEl = document.getElementById('ring-percent');
     if (!ring) return;
-    var total = completedTotal + tasks.length;
-    var pct = total === 0 ? 0 : Math.round((completedTotal / total) * 100);
+    var total = completedToday + tasks.length;
+    var pct = total === 0 ? 0 : Math.round((completedToday / total) * 100);
     var circumference = 314;
     var offset = circumference - (circumference * pct) / 100;
     if (canAnimate()) {
