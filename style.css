@@ -209,7 +209,7 @@ html, body { height: 100%; width: 100%; background: var(--page-bg); }
 
 .pomo-side { display: flex; flex-direction: column; gap: 0.7rem; flex: 1; }
 .session-count { font-size: 0.82rem; color: var(--text-secondary); font-weight: 600; display: flex; align-items: center; gap: 6px; }
-.session-count i { font-size: 8px; color: var(--accent); }
+.session-count i { font-size: 8px; color: var(--coral); }
 
 .mode-btns { display: flex; gap: 6px; }
 .mode-btns button { flex: 1; background: var(--surface-2); border: none; padding: 6px; border-radius: 8px; font-size: 0.75rem; font-weight: 600; color: var(--text-secondary); }
@@ -230,6 +230,15 @@ html, body { height: 100%; width: 100%; background: var(--page-bg); }
 }
 .open-notes-btn { align-self: flex-start; background: none; border: none; color: var(--accent); font-size: 0.82rem; font-weight: 600; display: flex; align-items: center; gap: 4px; }
 .open-notes-btn:hover { color: var(--accent-dark); }
+
+.task.done-task { opacity: 0.7; }
+.task.done-task .task-details h5 { text-decoration: line-through; color: var(--text-muted); }
+.task.done-task .task-check { background: var(--accent); border-color: var(--accent); color: #fff; }
+.task-group-label { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-muted); margin: 0.9rem 0 0.5rem; }
+.task-group-label:first-of-type { margin-top: 0; }
+.task-restore { background: none; border: none; color: var(--text-muted); font-size: 1rem; opacity: 0; transition: opacity 0.2s ease, color 0.2s ease; }
+.task:hover .task-restore { opacity: 1; }
+.task-restore:hover { color: var(--accent); }
 
 /* ---------- inbox / empty state ---------- */
 .empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 3rem 1rem; gap: 6px; }

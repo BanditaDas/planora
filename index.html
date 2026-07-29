@@ -25,7 +25,7 @@
                 <div class="nav-indicator" id="nav-indicator"></div>
                 <button class="nav-item active" data-view="today"><i class="ri-sun-line"></i><span>Today</span></button>
                 <button class="nav-item" data-view="inbox"><i class="ri-inbox-line"></i><span>Inbox</span></button>
-                <button class="nav-item" data-view="upcoming"><i class="ri-time-line"></i><span>Upcoming</span></button>
+                <button class="nav-item" data-view="alltasks"><i class="ri-list-check-3"></i><span>All tasks</span></button>
                 <button class="nav-item" data-view="calendar"><i class="ri-calendar-line"></i><span>Calendar</span></button>
                 <button class="nav-item" data-view="notes"><i class="ri-sticky-note-line"></i><span>Notes</span></button>
                 <button class="nav-item" data-view="stats"><i class="ri-bar-chart-line"></i><span>Stats</span></button>
@@ -142,12 +142,17 @@
                 </div>
             </section>
 
-            <!-- UPCOMING -->
-            <section class="view" id="view-upcoming">
-                <div class="card empty-state">
-                    <i class="ri-calendar-check-line"></i>
-                    <h3>Nothing scheduled yet</h3>
-                    <p>Tasks with a due date will line up here.</p>
+            <!-- ALL TASKS -->
+            <section class="view" id="view-alltasks">
+                <div class="card">
+                    <div class="tasks-card-header">
+                        <span class="card-label"><i class="ri-list-check-3"></i> Today's tasks</span>
+                        <span class="tasks-count" id="alltasks-count">0 total</span>
+                    </div>
+                    <p class="task-group-label">Active</p>
+                    <div class="alltask" id="activeTaskList"></div>
+                    <p class="task-group-label">Completed today</p>
+                    <div class="alltask" id="completedTaskList"></div>
                 </div>
             </section>
 

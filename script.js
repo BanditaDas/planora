@@ -112,15 +112,21 @@ var tasks = JSON.parse(localStorage.getItem('planora_tasks') || '[]');
 var completedTotal = parseInt(localStorage.getItem('planora_completedTotal') || '0', 10);
 var weekCompletions = JSON.parse(localStorage.getItem('planora_weekCompletions') || '{}');
 
-var completedToday = (function () {
+var completedToday = 0;
+var completedTasksToday = [];
+(function initTodayCompletions() {
     var today = new Date().toDateString();
     var storedDate = localStorage.getItem('planora_completedDate');
     if (storedDate !== today) {
         localStorage.setItem('planora_completedDate', today);
         localStorage.setItem('planora_completedToday', '0');
-        return 0;
+        localStorage.setItem('planora_completedTasksToday', '[]');
+        completedToday = 0;
+        completedTasksToday = [];
+    } else {
+        completedToday = parseInt(localStorage.getItem('planora_completedToday') || '0', 10);
+        completedTasksToday = JSON.parse(localStorage.getItem('planora_completedTasksToday') || '[]');
     }
-    return parseInt(localStorage.getItem('planora_completedToday') || '0', 10);
 })();
 
 function saveTasks() { localStorage.setItem('planora_tasks', JSON.stringify(tasks)); }
@@ -147,18 +153,66 @@ function renderTasks() {
 
     if (tasksCountEl) tasksCountEl.innerText = tasks.length + (tasks.length === 1 ? ' left' : ' left');
     updateProgressRing();
+    renderAllTasksView();
+}
+
+function renderAllTasksView() {
+    var activeEl = document.getElementById('activeTaskList');
+    var completedEl = document.getElementById('completedTaskList');
+    var countEl = document.getElementById('alltasks-count');
+    if (!activeEl || !completedEl) return;
+
+    activeEl.innerHTML = '';
+    tasks.forEach(function (t, i) {
+        var row = document.createElement('div');
+        row.className = 'task' + (t.imp ? ' imp' : '');
+        row.innerHTML =
+            '<span class="task-check" data-i="' + i + '"></span>' +
+            '<div class="task-details"><h5>' + t.task + '</h5>' + (t.dets ? '<p>' + t.dets + '</p>' : '') + '</div>' +
+            '<button class="task-remove" data-i="' + i + '"><i class="ri-close-line"></i></button>';
+        activeEl.appendChild(row);
+    });
+    activeEl.querySelectorAll('.task-check').forEach(function (chk) {
+        chk.addEventListener('click', function () { completeTask(parseInt(chk.getAttribute('data-i'), 10)); });
+    });
+    activeEl.querySelectorAll('.task-remove').forEach(function (btn) {
+        btn.addEventListener('click', function () { removeTask(parseInt(btn.getAttribute('data-i'), 10)); });
+    });
+
+    completedEl.innerHTML = '';
+    completedTasksToday.forEach(function (t, i) {
+        var row = document.createElement('div');
+        row.className = 'task done-task' + (t.imp ? ' imp' : '');
+        row.innerHTML =
+            '<span class="task-check done" data-i="' + i + '"><i class="ri-check-line"></i></span>' +
+            '<div class="task-details"><h5>' + t.task + '</h5>' + (t.dets ? '<p>' + t.dets + '</p>' : '') + '</div>' +
+            '<button class="task-restore" data-i="' + i + '" title="Move back to active"><i class="ri-arrow-go-back-line"></i></button>' +
+            '<button class="task-remove" data-i="' + i + '"><i class="ri-close-line"></i></button>';
+        completedEl.appendChild(row);
+    });
+    completedEl.querySelectorAll('.task-restore').forEach(function (btn) {
+        btn.addEventListener('click', function () { restoreTask(parseInt(btn.getAttribute('data-i'), 10)); });
+    });
+    completedEl.querySelectorAll('.task-remove').forEach(function (btn) {
+        btn.addEventListener('click', function () { removeCompletedTask(parseInt(btn.getAttribute('data-i'), 10)); });
+    });
+
+    if (countEl) countEl.innerText = (tasks.length + completedTasksToday.length) + ' total';
 }
 
 function completeTask(i) {
     var row = taskListEl.children[i];
     var finish = function () {
-        tasks.splice(i, 1);
+        var doneTask = tasks.splice(i, 1)[0];
         saveTasks();
         completedTotal += 1;
         localStorage.setItem('planora_completedTotal', completedTotal);
 
         completedToday += 1;
         localStorage.setItem('planora_completedToday', completedToday);
+
+        completedTasksToday.push(doneTask);
+        localStorage.setItem('planora_completedTasksToday', JSON.stringify(completedTasksToday));
 
         var day = new Date().toLocaleDateString(undefined, { weekday: 'short' });
         weekCompletions[day] = (weekCompletions[day] || 0) + 1;
@@ -171,6 +225,26 @@ function completeTask(i) {
     } else {
         finish();
     }
+}
+
+function restoreTask(i) {
+    var restored = completedTasksToday.splice(i, 1)[0];
+    localStorage.setItem('planora_completedTasksToday', JSON.stringify(completedTasksToday));
+
+    completedToday = Math.max(0, completedToday - 1);
+    localStorage.setItem('planora_completedToday', completedToday);
+
+    if (restored) {
+        tasks.push(restored);
+        saveTasks();
+    }
+    renderTasks();
+}
+
+function removeCompletedTask(i) {
+    completedTasksToday.splice(i, 1);
+    localStorage.setItem('planora_completedTasksToday', JSON.stringify(completedTasksToday));
+    renderAllTasksView();
 }
 
 function removeTask(i) {
