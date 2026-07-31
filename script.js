@@ -477,11 +477,53 @@ if (pomoProgress) {
     pomoProgress.style.strokeDashoffset = 0;
 }
 
+function buildTimerDigits(text) {
+    if (!timeEl) return;
+    timeEl.innerHTML = '';
+    text.split('').forEach(function (ch) {
+        var cell = document.createElement('span');
+        cell.className = 'digit-cell' + (ch === ':' ? ' colon' : '');
+        var inner = document.createElement('span');
+        inner.className = 'digit-inner';
+        inner.textContent = ch;
+        cell.appendChild(inner);
+        timeEl.appendChild(cell);
+    });
+}
+
+function setTimerDigits(text) {
+    if (!timeEl) return;
+    var cells = timeEl.querySelectorAll('.digit-cell');
+    if (cells.length !== text.length) { buildTimerDigits(text); return; }
+
+    text.split('').forEach(function (ch, i) {
+        var inner = cells[i].querySelector('.digit-inner');
+        if (!inner || inner.textContent === ch) return;
+
+        if (canAnimate()) {
+            gsap.to(inner, {
+                y: '-100%', opacity: 0, duration: 0.16, ease: "power1.in",
+                onComplete: function () {
+                    inner.textContent = ch;
+                    gsap.fromTo(inner, { y: '70%', opacity: 0 }, { y: '0%', opacity: 1, duration: 0.22, ease: "power2.out" });
+                }
+            });
+        } else {
+            inner.textContent = ch;
+        }
+    });
+}
+
 function updatePomoDisplay() {
     if (timeEl) {
         var minutes = Math.floor(timeLeft / 60);
         var seconds = timeLeft % 60;
-        timeEl.innerText = String(minutes).padStart(2, "0") + ":" + String(seconds).padStart(2, "0");
+        var text = String(minutes).padStart(2, "0") + ":" + String(seconds).padStart(2, "0");
+        if (timeEl.children.length === 0) {
+            buildTimerDigits(text);
+        } else {
+            setTimerDigits(text);
+        }
     }
     if (pomoProgress) {
         var progressValue = timeLeft / totalTime;
