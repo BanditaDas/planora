@@ -268,10 +268,24 @@ html, body { height: 100%; width: 100%; background: var(--page-bg); }
 .empty-state p { color: var(--text-muted); font-size: 0.88rem; }
 
 /* ---------- calendar / day planner ---------- */
-.day-planner { margin-top: 0.8rem; display: flex; flex-wrap: wrap; gap: 10px 4%; max-height: 55vh; overflow-y: auto; }
-.day-plan-time { display: flex; align-items: center; gap: 10px; width: 48%; }
+.day-planner {
+  margin-top: 0.8rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 16px;
+  max-height: 55vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 4px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+.day-planner::-webkit-scrollbar { width: 5px; height: 0; }
+.day-planner::-webkit-scrollbar-thumb { background: var(--border); border-radius: 10px; }
+.day-planner::-webkit-scrollbar-track { background: transparent; }
+.day-plan-time { display: flex; align-items: center; gap: 10px; min-width: 0; }
 .day-plan-time p { font-size: 0.8rem; font-weight: 600; color: var(--text-secondary); width: 68px; flex-shrink: 0; }
-.day-plan-time input { flex: 1; background: var(--surface-2); border: 1px solid transparent; padding: 0.55rem 0.7rem; border-radius: 8px; font-size: 0.88rem; outline: none; }
+.day-plan-time input { flex: 1; min-width: 0; background: var(--surface-2); border: 1px solid transparent; padding: 0.55rem 0.7rem; border-radius: 8px; font-size: 0.88rem; outline: none; }
 .day-plan-time input:focus { border-color: var(--accent); }
 
 /* ---------- notes page / quote ---------- */
@@ -372,6 +386,7 @@ html, body { height: 100%; width: 100%; background: var(--page-bg); }
   .nav-item span { display: none; }
   .settings-item { margin-top: 0; border: none; padding-top: 0; }
   .stat-row, .bottom-row { grid-template-columns: 1fr; }
+  .day-planner { grid-template-columns: 1fr; }
   .content { padding: 1.2rem; }
 }
 
