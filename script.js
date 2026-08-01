@@ -159,10 +159,12 @@ function renderTasks() {
 function renderAllTasksView() {
     var activeEl = document.getElementById('activeTaskList');
     var completedEl = document.getElementById('completedTaskList');
-    var countEl = document.getElementById('alltasks-count');
     if (!activeEl || !completedEl) return;
 
     activeEl.innerHTML = '';
+    if (tasks.length === 0) {
+        activeEl.innerHTML = '<p class="task-empty">No tasks yet</p>';
+    }
     tasks.forEach(function (t, i) {
         var row = document.createElement('div');
         row.className = 'task' + (t.imp ? ' imp' : '');
@@ -180,6 +182,9 @@ function renderAllTasksView() {
     });
 
     completedEl.innerHTML = '';
+    if (completedTasksToday.length === 0) {
+        completedEl.innerHTML = '<p class="task-empty">No tasks yet</p>';
+    }
     completedTasksToday.forEach(function (t, i) {
         var row = document.createElement('div');
         row.className = 'task done-task' + (t.imp ? ' imp' : '');
@@ -196,8 +201,6 @@ function renderAllTasksView() {
     completedEl.querySelectorAll('.task-remove').forEach(function (btn) {
         btn.addEventListener('click', function () { removeCompletedTask(parseInt(btn.getAttribute('data-i'), 10)); });
     });
-
-    if (countEl) countEl.innerText = (tasks.length + completedTasksToday.length) + ' total';
 }
 
 function completeTask(i) {
