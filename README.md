@@ -6,15 +6,37 @@ Planora is a simple and intuitive task management web application that helps use
 
 ---
 
+
+
 ## ✨ Features
 
-* ➕ Add new tasks easily
-* ✅ Mark tasks as completed
-* 🗑️ Delete tasks
-* ✏️ Edit existing tasks
-* 📱 Responsive design for different screen sizes
-* 🎨 Clean and modern user interface
-* 💾 Stores tasks locally so they persist even after refreshing the page
+### 📋 Task Management
+- Create, edit, and delete tasks
+- Mark tasks as completed
+- Star important tasks
+- Track remaining tasks at a glance
+
+### 📈 Productivity Dashboard
+- Circular task completion progress
+- Daily streak tracker
+- Live clock and date
+
+### 🍅 Focus Mode
+- Built-in Pomodoro timer
+- Multiple focus durations
+- Start, pause, and reset controls
+
+### 🌤️ Smart Widgets
+- Real-time weather information
+- Quick Notes widget
+- Persistent notes with Local Storage
+
+### 🎨 User Experience
+- Clean modern interface
+- Responsive across all devices
+- Dark theme
+- Fast and lightweight
+- Tasks and notes persist after page refresh using Local Storage
 
 ---
 
@@ -63,6 +85,13 @@ Or use VS Code's Live Server extension:
 2. Right-click on `index.html`.
 3. Click **Open with Live Server**.
 
+
+
+---
+⭐ Show Your Support
+
+If you found this project useful or interesting, consider giving it a ⭐ on GitHub. It helps support my work and motivates me to build more projects!
+
 ---
 
 ## 👩‍💻 Author
@@ -71,7 +100,4 @@ Or use VS Code's Live Server extension:
 
 * GitHub: https://github.com/BanditaDas
 * Portfolio: https://portfolio-six-theta-37.vercel.app/
-
----
-
 ##
