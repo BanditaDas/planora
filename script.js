@@ -620,6 +620,19 @@ updatePomoDisplay();
 var apikey = 'b2396b3dd79f47c3b5f41751262405';
 var defaultCity = "kolkata";
 
+function weatherEmoji(text, isDay) {
+    var t = (text || '').toLowerCase();
+    if (t.includes('thunder')) return '⛈️';
+    if (t.includes('snow') || t.includes('blizzard') || t.includes('ice') || t.includes('sleet')) return '🌨️';
+    if (t.includes('fog') || t.includes('mist') || t.includes('haze')) return '🌫️';
+    if (t.includes('drizzle') || t.includes('shower')) return '🌦️';
+    if (t.includes('rain')) return '🌧️';
+    if (t.includes('overcast')) return '☁️';
+    if (t.includes('partly cloudy') || t.includes('cloudy')) return isDay ? '⛅' : '☁️';
+    if (t.includes('clear') || t.includes('sunny')) return isDay ? '☀️' : '🌙';
+    return isDay ? '🌤️' : '🌙';
+}
+
 async function fetchWeather(query) {
     try {
         var response = await fetch("https://api.weatherapi.com/v1/current.json?key=" + apikey + "&q=" + query);
@@ -627,6 +640,7 @@ async function fetchWeather(query) {
 
         var cityEl = document.getElementById('w-city');
         var tempEl = document.getElementById('w-temp');
+        var emojiEl = document.getElementById('w-emoji');
         if (cityEl) cityEl.innerText = data.location.name;
         if (tempEl) {
             if (canAnimate()) gsap.fromTo(tempEl, { opacity: 0, y: 6 }, { opacity: 1, y: 0, duration: 0.4 });
@@ -634,6 +648,10 @@ async function fetchWeather(query) {
         }
         var condEl = document.getElementById('w-condition');
         if (condEl) condEl.innerText = data.current.condition.text;
+        if (emojiEl) {
+            emojiEl.textContent = weatherEmoji(data.current.condition.text, data.current.is_day === 1);
+            if (canAnimate()) gsap.fromTo(emojiEl, { opacity: 0, scale: 0.6, rotate: -12 }, { opacity: 1, scale: 1, rotate: 0, duration: 0.5, ease: "back.out(2)" });
+        }
     } catch (err) {
         console.error("weather error", err);
     }
